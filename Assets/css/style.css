@@ -1,0 +1,33 @@
+body {
+    font-family: Arial, sans-serif;
+}
+
+.jumbotron {
+    background: url('https://via.placeholder.com/1920x1080.png') no-repeat center center;
+    background-size: cover;
+    color: white;
+    height: 60vh; /* Adjust height as necessary */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.card-img-top {
+    height: 200px;
+    object-fit: cover;
+}
+
+footer {
+    background-color: #f8f9fa;
+    padding: 1rem 0;
+}
+
+#portfolio .card {
+    transition: transform 0.3s ease-in-out;
+}
+
+#portfolio .card:hover {
+    transform: scale(1.05);
+}
+
+
