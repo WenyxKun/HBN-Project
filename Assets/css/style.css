@@ -49,3 +49,15 @@ footer {
 .hover\:bg-blue-600:hover {
   background-color: color-mix(in srgb, var(--color-primary) 10% black);
 }
+
+.bg-white {
+    background-color: #ffffff; /* Ganti dengan warna yang sesuai */
+}
+
+/* Contoh custom CSS */
+@layer components {
+    /* Custom class untuk form */
+    .custom-form-input {
+        @apply border border-gray-300 rounded px-2 py-1 text-xs mb-3;
+    }
+}
