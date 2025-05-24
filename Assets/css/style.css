@@ -1,3 +1,4 @@
+/* Index.html */
 body {
     font-family: Arial, sans-serif;
 }
@@ -30,4 +31,21 @@ footer {
     transform: scale(1.05);
 }
 
+/* Tailwind-like utilities */
+.bg-gray-100 { background-color: #f3f4f6; }
+.max-w-xs { max-width: 20rem; }
+/* Tambahkan semua utility class yang digunakan */
 
+:root {
+  --color-primary: #3b82f6;
+  --color-gray-100: #f3f4f6;
+  --color-gray-900: #111827;
+}
+
+.bg-gray-100 {
+  background-color: var(--color-gray-100);
+}
+
+.hover\:bg-blue-600:hover {
+  background-color: color-mix(in srgb, var(--color-primary) 10% black);
+}
