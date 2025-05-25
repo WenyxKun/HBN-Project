@@ -1,67 +1,62 @@
 <!DOCTYPE html>
 <html lang="id">
-    <head>
-        <meta charset="utf-8"/>
-        <meta content="width=device-width, initial-scale=1" name="viewport"/>
-        <title>Buat Akun</title>
-        <script src="https://cdn.tailwindcss.com"></script>
-        <link
-            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
-            rel="stylesheet"/>
-        <link rel="stylesheet" href="assets/css/styles.css"/>
-        <!-- Link ke file CSS -->
-    </head>
-    <body class="bg-gray-100">
-        <main class="min-h-[calc(100vh-160px)] flex items-center justify-center p-4">
-            <form
-                aria-label="Form Buat Akun"
-                class="bg-white p-6 w-full max-w-xs shadow-sm">
-                <h2 class="text-center font-bold text-sm mb-4 border-b border-gray-300 pb-2">Buat Akun</h2>
-                <label class="block text-xs font-semibold mb-1" for="nama">Nama</label>
-                <input
-                    class="w-full border border-gray-300 rounded px-2 py-1 text-xs mb-3 placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-blue-500"
-                    id="nama"
-                    name="nama"
-                    placeholder="Nama anda"
-                    type="text"/>
-                <label class="block text-xs font-semibold mb-1" for="email">Email</label>
-                <input
-                    class="w-full border border-gray-300 rounded px-2 py-1 text-xs mb-3 placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-blue-500"
-                    id="email"
-                    name="email"
-                    placeholder="Email anda"
-                    type="email"/>
-                <label class="block text-xs font-semibold mb-1" for="telepon">No Telepon / WhatsApp</label>
-                <input
-                    class="w-full border border-gray-300 rounded px-2 py-1 text-xs mb-3 placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-blue-500"
-                    id="telepon"
-                    name="telepon"
-                    placeholder="No. WhatsApp anda"
-                    type="text"/>
-                <label class="block text-xs font-semibold mb-1" for="password">Password</label>
-                <input
-                    class="w-full border border-gray-300 rounded px-2 py-1 text-xs mb-4 placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-blue-500"
-                    id="password"
-                    name="password"
-                    placeholder="Password anda"
-                    type="password"/>
-                <button
-                    class="w-full bg-blue-500 text-white text-xs font-semibold rounded py-2 mb-3 hover:bg-blue-600 transition-colors"
-                    type="submit">Daftar</button>
-                <p class="text-center text-xs text-gray-700">Sudah punya akun?
-                    <a class="text-blue-500 hover:underline" href="#">Masuk</a>
-                </p>
-            </form>
-        </main>
-        <footer class="bg-gray-900 text-gray-300 text-xs px-6 py-8">
-            <div
-                aria-label="Footer Info"
-                class="max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-3 gap-8 sm:gap-12">
-                <!-- Konten footer tetap sama -->
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1" name="viewport"/>
+    <title>Buat Akun</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="assets/css/styles.css"/>
+</head>
+<body class="bg-gray-100">
+    <main class="min-h-[calc(100vh-160px)] flex items-center justify-center p-4">
+        <form aria-label="Form Buat Akun" class="bg-white p-8 w-full max-w-md shadow-lg rounded-lg"> <!-- Diubah max-w-xs menjadi max-w-md dan shadow-sm menjadi shadow-lg -->
+            <h2 class="text-center font-bold text-xl mb-6 border-b border-gray-300 pb-3">Buat Akun</h2> <!-- Ukuran teks diperbesar -->
+            
+            <div class="space-y-4"> <!-- Menambah jarak antar input -->
+                <div>
+                    <label class="block text-sm font-semibold mb-2" for="nama">Nama</label> <!-- Ukuran teks diperbesar -->
+                    <input class="w-full border border-gray-300 rounded-lg px-4 py-2 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500" 
+                           id="nama" name="nama" placeholder="Nama anda" type="text"/> <!-- Padding dan ukuran teks diperbesar -->
+                </div>
+                
+                <div>
+                    <label class="block text-sm font-semibold mb-2" for="email">Email</label>
+                    <input class="w-full border border-gray-300 rounded-lg px-4 py-2 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500" 
+                           id="email" name="email" placeholder="Email anda" type="email"/>
+                </div>
+                
+                <div>
+                    <label class="block text-sm font-semibold mb-2" for="telepon">No Telepon / WhatsApp</label>
+                    <input class="w-full border border-gray-300 rounded-lg px-4 py-2 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500" 
+                           id="telepon" name="telepon" placeholder="No. WhatsApp anda" type="text"/>
+                </div>
+                
+                <div>
+                    <label class="block text-sm font-semibold mb-2" for="password">Password</label>
+                    <input class="w-full border border-gray-300 rounded-lg px-4 py-2 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500" 
+                           id="password" name="password" placeholder="Password anda" type="password"/>
+                </div>
             </div>
-            <p class="text-gray-500 text-[10px] mt-8 max-w-7xl mx-auto">Copyright © 2025 YN Merch. All Rights Reserved.</p>
-        </footer>
-        <script src="assets/js/scripts.js"></script>
-        <!-- Link ke file JavaScript -->
-    </body>
+            
+            <button class="w-full bg-blue-500 text-white text-sm font-semibold rounded-lg py-3 mt-6 hover:bg-blue-600 transition-colors" 
+                    type="submit">Daftar</button> <!-- Ukuran tombol diperbesar -->
+            
+            <p class="text-center text-sm text-gray-700 mt-4"> <!-- Ukuran teks diperbesar -->
+                Sudah punya akun?
+                <a class="text-blue-500 hover:underline" href="#">Masuk</a>
+            </p>
+        </form>
+    </main>
+    
+    <!-- Footer tetap sama -->
+    <footer class="bg-gray-900 text-gray-300 text-xs px-6 py-8">
+        <div aria-label="Footer Info" class="max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-3 gap-8 sm:gap-12">
+            <!-- Konten footer tetap sama -->
+        </div>
+        <p class="text-gray-500 text-[10px] mt-8 max-w-7xl mx-auto">Copyright © 2025 YN Merch. All Rights Reserved.</p>
+    </footer>
+    
+    <script src="assets/js/scripts.js"></script>
+</body>
 </html>

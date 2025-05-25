@@ -1,113 +1,247 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HBN Production</title>
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="styles.css">
-</head>
-<body>
-    <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <a class="navbar-brand" href="#">Desain Logo</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav ml-auto">
-                <li class="nav-item"><a class="nav-link" href="#portfolio">Portofolio</a></li>
-                <li class="nav-item"><a class="nav-link" href="#about">Tentang Kami</a></li>
-                <li class="nav-item"><a class="nav-link" href="#contact">Kontak</a></li>
-                <li class="nav-item"><a class="nav-link" href="">Masuk</a></li>
-                <li class="nav-item"><a class="nav-link" href="register.html">Daftar</a></li>
-                <!-- <li class="nav-item"><a class="nav-link" href="view_contacts.php">Admin</a></li> -->
-            </ul>
-        </div>
-    </nav>
-    
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>HBN Production</title>
+        <link
+            href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+            rel="stylesheet">
+        <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+        <link rel="stylesheet" href="assets/css/styles.css">
+        <link rel="stylesheet" href="assets/css/pricing.css">
+    </head>
+    <body>
+        <!-- Navbar -->
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <a class="navbar-brand" href="#">Desain Logo</a>
+            <button
+                class="navbar-toggler"
+                type="button"
+                data-toggle="collapse"
+                data-target="#navbarNav"
+                aria-controls="navbarNav"
+                aria-expanded="false"
+                aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#portfolio">Portofolio</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#about">Tentang Kami</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#contact">Kontak</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="">Masuk</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="register.html">Daftar</a>
+                    </li>
+                    <!-- <li class="nav-item"><a class="nav-link"
+                    href="view_contacts.php">Admin</a></li> -->
+                </ul>
+            </div>
+        </nav>
 
-    <!-- Hero Section -->
-    <header class="jumbotron text-center">
-        <h1 class="display-4">Selamat Datang di HBN Production</h1>
-        <p class="lead">Menciptakan Identitas Visual yang Unik dan Menarik</p>
-    </header>
+        <!-- Hero Section -->
+        <header class="jumbotron text-center">
+            <h1 class="display-4">Selamat Datang di HBN Production</h1>
+            <p class="lead">Menciptakan Identitas Visual yang Unik dan Menarik</p>
+        </header>
 
-    <!-- Portfolio Section -->
-    <section id="portfolio" class="container">
-        <h2 class="text-center mb-5">Portofolio</h2>
-        <div class="row">
-            <?php include 'get_portfolio.php'; ?>
-            <div class="col-md-4 mb-4">
-                <div class="card">
-                    <img src="Assets\Img\IMG-20240516-WA0034.jpg" class="card-img-top" alt="Logo Aroma Café">
-                    <div class="card-body">
-                        <h5 class="card-title">Ixora Cosmetic</h5>
-                        <p class="card-text">Logo untuk klinik kesehatan yang menawarkan layanan medis untuk kecantikan.</p>
+        <!-- Portfolio Section -->
+        <section id="portfolio" class="container">
+            <h2 class="text-center mb-5">Portofolio</h2>
+            <div class="row">
+                <?php include 'get_portfolio.php'; ?>
+                <div class="col-md-4 mb-4">
+                    <div class="card">
+                        <img
+                            src="Assets\Img\IMG-20240516-WA0034.jpg"
+                            class="card-img-top"
+                            alt="Logo Aroma Café">
+                        <div class="card-body">
+                            <h5 class="card-title">Ixora Cosmetic</h5>
+                            <p class="card-text">Logo untuk klinik kesehatan yang menawarkan layanan medis untuk kecantikan.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="card">
+                        <img
+                            src="Assets\Img\IMG-20240516-WA0045.jpg"
+                            class="card-img-top"
+                            alt="Logo Tech Solutions">
+                        <div class="card-body">
+                            <h5 class="card-title">Berikabar Warkop</h5>
+                            <p class="card-text">Logo untuk kafe yang menawarkan pengalaman kuliner yang santai dan elegan.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="card">
+                        <img
+                            src="Assets\Img\IMG-20240516-WA0025.jpg"
+                            class="card-img-top"
+                            alt="Logo HealthyLife Clinic">
+                        <div class="card-body">
+                            <h5 class="card-title">Sobatgn Mountain Gear</h5>
+                            <p class="card-text">Logo untuk Toko perlatan lengkap untuk para pendaki hebat.</p>
+                        </div>
                     </div>
                 </div>
             </div>
-            <div class="col-md-4 mb-4">
-                <div class="card">
-                    <img src="Assets\Img\IMG-20240516-WA0045.jpg" class="card-img-top" alt="Logo Tech Solutions">
-                    <div class="card-body">
-                        <h5 class="card-title">Berikabar Warkop</h5>
-                        <p class="card-text">Logo untuk kafe yang menawarkan pengalaman kuliner yang santai dan elegan.</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-4 mb-4">
-                <div class="card">
-                    <img src="Assets\Img\IMG-20240516-WA0025.jpg" class="card-img-top" alt="Logo HealthyLife Clinic">
-                    <div class="card-body">
-                        <h5 class="card-title">Sobatgn Mountain Gear</h5>
-                        <p class="card-text">Logo untuk Toko perlatan lengkap untuk para pendaki hebat.</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+        </section>
 
-    <!-- About Section -->
-    <section id="about" class="bg-light py-5">
+        <!-- New Pricing Section -->
+        <section id="pricing" class="pricing-section">
         <div class="container">
-            <h2 class="text-center mb-5">Tentang Kami</h2>
-            <p>Kami adalah penyedia jasa HBN Production profesional yang berdedikasi untuk membantu Anda menciptakan identitas visual yang unik dan menarik. Dengan pengalaman bertahun-tahun dalam desain grafis, kami siap membantu Anda menghasilkan logo yang mencerminkan nilai dan visi bisnis Anda.</p>
-        </div>
-    </section>
-
-    <!-- Contact Section -->
-    <section id="contact" class="container py-5">
-        <h2 class="text-center mb-5">Kontak Kami</h2>
-        <div class="row">
-            <div class="col-md-6 offset-md-3">
-                <form action="save_contact.php" method="post">
-                    <div class="form-group">
-                        <label for="name">Nama:</label>
-                        <input type="text" class="form-control" id="name" name="name" required>
+            <h2 class="text-center section-title">Paket Layanan Kami</h2>
+            <div class="row">
+                <!-- Starter Package -->
+                <div class="col-md-4">
+                    <div class="pricing-card">
+                        <div class="pricing-header starter">
+                            <h3 class="pricing-title">Starter Package</h3>
+                            <div class="pricing-timeline"><i class="far fa-clock"></i> 5-7 Hari</div>
+                        </div>
+                        <div class="pricing-features">
+                            <ul>
+                                <li>Primary Logo</li>
+                                <li>Color Palette</li>
+                                <li>Typography Pairing</li>
+                                <li>3D Mockups</li>
+                                <li>A3 Bradboard Guideline</li>
+                       
+                            </ul>
+                        </div>
+                        <a href="register.html" class="pricing-btn btn btn-outline-success">Pilih Paket</a>
                     </div>
-                    <div class="form-group">
-                        <label for="email">Email:</label>
-                        <input type="email" class="form-control" id="email" name="email" required>
+                </div>
+                
+                <!-- Exclusive Plus Package -->
+                <div class="col-md-4">
+                    <div class="pricing-card">
+                        <div class="pricing-header">
+                            <h3 class="pricing-title">Exclusive Plus</h3>
+                            <div class="pricing-timeline"><i class="far fa-clock"></i> 3-4 Minggu</div>
+                        </div>
+                        <div class="pricing-features">
+                            <ul>
+                                <li>Primary Logo</li>
+                                <li>Logo Variation</li>
+                                <li>Color Palette</li>
+                                <li>Typography Pairing</li>
+                                <li>3D Mockups</li>
+                                <li>Brand Pattern/Element</li>
+                                <li>Stationary Design</li>
+                                <li>Social Media Kit</li>
+                                <li>Brand Guidelines</li>
+                            </ul>
+                        </div>
+                        <a href="register.html" class="pricing-btn btn btn-outline-primary">Pilih Paket</a>
                     </div>
-                    <div class="form-group">
-                        <label for="message">Pesan:</label>
-                        <textarea class="form-control" id="message" name="message" rows="5" required></textarea>
+                </div>
+                
+                <!-- Premium Package -->
+                <div class="col-md-4">
+                    <div class="pricing-card">
+                        <div class="pricing-header premium">
+                            <h3 class="pricing-title">Premium Package</h3>
+                            <div class="pricing-timeline"><i class="far fa-clock"></i> 12 Minggu</div>
+                        </div>
+                        <div class="pricing-features">
+                            <ul>
+                                <li>Primary Logo</li>
+                                <li>Logo Variation</li>
+                                <li>Color Palette</li>
+                                <li>Typography Pairing</li>
+                                <li>3D Mockups</li>
+                                <li>Brand Guidelines</li>
+                                <li>Unlimited Revisions</li>
+                                <li>Priority Support</li>
+                                <li>Dedicated Designer</li>
+                            </ul>
+                        </div>
+                        <a href="register.html" class="pricing-btn btn btn-outline-warning">Pilih Paket</a>
                     </div>
-                    <button type="submit" class="btn btn-primary">Kirim</button>
-                </form>                              
+                </div>
             </div>
         </div>
     </section>
 
-    <!-- Footer -->
-    <footer class="text-center py-4">
-        <p>&copy; 2024 HBN Production. Semua hak cipta dilindungi.</p>
-    </footer>
+        <!-- About Section -->
+        <section id="about" class="bg-light py-5">
+            <div class="container">
+                <h2 class="text-center mb-5">Tentang Kami</h2>
+                <p>Kami adalah penyedia jasa HBN Production profesional yang berdedikasi untuk
+                    membantu Anda menciptakan identitas visual yang unik dan menarik. Dengan
+                    pengalaman bertahun-tahun dalam desain grafis, kami siap membantu Anda
+                    menghasilkan logo yang mencerminkan nilai dan visi bisnis Anda.</p>
+            </div>
+        </section>
 
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    <script src="scripts.js"></script>
-</body>
+        <!-- Contact Section -->
+        <section id="contact" class="container py-5">
+            <h2 class="text-center mb-5">Kontak Kami</h2>
+            <div class="row">
+                <div class="col-md-6 offset-md-3">
+                    <form action="save_contact.php" method="post">
+                        <div class="form-group">
+                            <label for="name">Nama:</label>
+                            <input
+                                type="text"
+                                class="form-control"
+                                id="name"
+                                name="name"
+                                required="required">
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email:</label>
+                            <input
+                                type="email"
+                                class="form-control"
+                                id="email"
+                                name="email"
+                                required="required">
+                        </div>
+                        <div class="form-group">
+                            <label for="message">Pesan:</label>
+                            <textarea
+                                class="form-control"
+                                id="message"
+                                name="message"
+                                rows="5"
+                                required="required"></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Kirim</button>
+                    </form>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="text-center py-4">
+            <p>&copy; 2024 HBN Production. Semua hak cipta dilindungi.</p>
+        </footer>
+
+        <!-- Scripts -->
+        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+        <script
+            src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+        <script
+            src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+        <script>
+        // <script src="assets/js/scripts.js"></script>
+        // <script src="assets/js/pricing.js"></script>
+
+        </script>
+    </body>
 </html>

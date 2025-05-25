@@ -1,11 +1,16 @@
 // Fungsi untuk load komponen
-function loadComponents() {
-  document.querySelectorAll('[data-include]').forEach(async (element) => {
-    const file = element.getAttribute('data-include');
-    const response = await fetch(file);
-    element.outerHTML = await response.text();
-  });
-}
-
-// Jalankan saat halaman dimuat
-document.addEventListener('DOMContentLoaded', loadComponents);
+document.addEventListener('DOMContentLoaded', async () => {
+    const components = document.querySelectorAll('[data-include]');
+    
+    for (const component of components) {
+        const file = component.getAttribute('data-include');
+        try {
+            const response = await fetch(file);
+            if (!response.ok) throw new Error(`Failed to load ${file}`);
+            component.outerHTML = await response.text();
+        } catch (error) {
+            console.error(error);
+            component.innerHTML = `<p class="text-red-500">Error loading ${file}</p>`;
+        }
+    }
+});
