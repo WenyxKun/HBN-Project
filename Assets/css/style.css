@@ -4,10 +4,10 @@ body {
 }
 
 .jumbotron {
-    background: url("https://via.placeholder.com/1920x1080.png") no-repeat center center;
+    background: linear-gradient(to right, #e8e7e7, #cecccc);
     background-size: cover;
-    color: white;
-    height: 60vh;
+    color: rgb(27, 54, 21);
+    height: 15vh;
     /* Adjust height as necessary */
     display: flex;
     flex-direction: column;
@@ -15,7 +15,7 @@ body {
 }
 
 .card-img-top {
-    height: 200px;
+    height: 400px;
     object-fit: cover;
 }
 
@@ -103,3 +103,285 @@ footer {
     height: 20px;
     background-size: 100% 100%;
   }
+
+/* Style Overlay */
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.7);
+    z-index: 1000;
+    display: none; /* Awalnya tersembunyi */
+    justify-content: center;
+    align-items: center;
+    overflow-y: auto; /* Aktifkan scroll jika konten overlay terlalu panjang */
+}
+
+/* Overlay Container */
+#transactionOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0,0,0,0.5);
+  display: none;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.overlay-content {
+  background: white;
+  width: 90%;
+  max-width: 500px;
+  border-radius: 12px;
+  padding: 20px;
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+/* Header */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.header-content {
+  text-align: center;
+  flex: 1;
+}
+
+.title {
+  font-size: 16px;
+  font-weight: 600;
+  color: #111827;
+  margin: 0;
+}
+
+.order-id {
+  font-size: 12px;
+  color: #6b7280;
+  margin-top: 4px;
+}
+
+.close-btn {
+  background: none;
+  border: none;
+  color: #6b7280;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+/* Progress Steps */
+.progress-steps {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 25px;
+  position: relative;
+}
+
+.progress-steps::before {
+  content: '';
+  position: absolute;
+  top: 10px;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background-color: #e5e7eb;
+  z-index: 1;
+}
+
+.step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  z-index: 2;
+}
+
+.step-indicator {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background-color: #e5e7eb;
+  margin-bottom: 8px;
+}
+
+.step-label {
+  font-size: 12px;
+  color: #9ca3af;
+  text-align: center;
+}
+
+.step.active .step-indicator {
+  background-color: #3b82f6;
+}
+
+.step.active .step-label {
+  color: #3b82f6;
+}
+
+/* Content */
+.content {
+  margin-bottom: 20px;
+}
+
+.section-subtitle {
+  font-size: 12px;
+  color: #6b7280;
+  margin-bottom: 16px;
+}
+
+/* Interval Selector */
+.interval-selector {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 20px;
+}
+
+.interval-btn {
+  width: 32px;
+  height: 32px;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  background: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: #4b5563;
+}
+
+.interval-input {
+  flex: 1;
+  height: 32px;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  text-align: center;
+  font-size: 14px;
+}
+
+/* Info Box */
+.info-box {
+  background-color: #f3f4f6;
+  border-radius: 8px;
+  padding: 12px;
+  margin-bottom: 20px;
+  font-size: 12px;
+  color: #4b5563;
+  line-height: 1.5;
+}
+
+/* Form */
+.payment-form {
+  border: 1px solid #3b82f6;
+  border-radius: 8px;
+  padding: 16px;
+}
+
+.form-title {
+  color: #3b82f6;
+  font-size: 14px;
+  font-weight: 600;
+  margin: 0 0 12px 0;
+  padding-bottom: 8px;
+  border-bottom: 1px solid #3b82f6;
+}
+
+.form-group {
+  margin-bottom: 16px;
+}
+
+.form-group label {
+  display: block;
+  font-size: 12px;
+  color: #4b5563;
+  margin-bottom: 4px;
+}
+
+.form-group input,
+.form-group textarea {
+  width: 100%;
+  padding: 8px 12px;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  font-size: 14px;
+}
+
+.form-group textarea {
+  resize: none;
+}
+
+.date-group {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.date-input {
+  flex: 1;
+}
+
+/* Action Buttons */
+.action-buttons {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-top: 20px;
+}
+
+.primary-btn {
+  background-color: #3b82f6;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  padding: 8px 16px;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.secondary-btn {
+  background-color: white;
+  color: #3b82f6;
+  border: 1px solid #3b82f6;
+  border-radius: 6px;
+  padding: 8px 16px;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+/* Hide number input arrows */
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type=number] {
+  -moz-appearance: textfield; /* Firefox */
+  -webkit-appearance: none;   /* Chrome, Safari */
+  appearance: none;          /* Standard syntax */
+}
+
+/* Nonaktifkan scroll body saat overlay aktif */
+.body-no-scroll {
+  overflow: hidden;
+  width: 100%;
+}
+
+/* Style tambahan untuk konten */
+.status {
+    margin-bottom: 1.5rem;
+}
+
+.table {
+    width: 100%;
+    margin-bottom: 1rem;
+}
+

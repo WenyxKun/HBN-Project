@@ -10,14 +10,18 @@
         <link
             rel="stylesheet"
             href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
-        <link rel="stylesheet" href="assets/css/styles.css">
-        <link rel="stylesheet" href="assets/css/pricing.css">
+        <link
+            href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+            rel="stylesheet">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+        <link rel="stylesheet" href="Assets/css/style.css">
+        <link rel="stylesheet" href="Assets/css/pricing.css">
     </head>
     <body>
         <!-- Navbar -->
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
-            <a class="navbar-brand" href="#">
-                 <img src="Assets\Img\Gambar1.jpg" width="50" height="50" alt="">
+            <a class="navbar-brand ps-3" href="#">
+                <img src="Assets\Img\Gambar1.jpg" width="50" height="50" alt="">
             </a>
             <button
                 class="navbar-toggler"
@@ -30,7 +34,7 @@
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ml-auto">
+                <ul class="navbar-nav ms-auto pe-3">
                     <li class="nav-item">
                         <a class="nav-link" href="#portfolio">Portofolio</a>
                     </li>
@@ -58,206 +62,243 @@
             <p class="lead">Menciptakan Identitas Visual yang Unik dan Menarik</p>
         </header>
 
-<style>
-  /* Custom Carousel Controls */
-  .carousel-control-prev,
-  .carousel-control-next {
-    width: 40px; /* Lebar tombol */
-    height: 40px; /* Tinggi tombol */
-    background-color: rgba(0, 0, 0, 0.3); /* Warna background */
-    border-radius: 50%; /* Bentuk bulat */
-    top: 50%; /* Posisi vertikal tengah */
-    transform: translateY(-50%);
-    opacity: 1; /* Selalu terlihat */
-    transition: all 0.3s ease;
-  }
+        <style>
+            /* Custom Carousel Controls */
+            .carousel-control-next,
+            .carousel-control-prev {
+                width: 40px;
+                /* Lebar tombol */
+                height: 40px;
+                /* Tinggi tombol */
+                background-color: rgba(0, 0, 0, 0.3);
+                /* Warna background */
+                border-radius: 50%;
+                /* Bentuk bulat */
+                top: 50%;
+                /* Posisi vertikal tengah */
+                transform: translateY(-50%);
+                opacity: 1;
+                /* Selalu terlihat */
+                transition: all 0.3s ease;
+            }
 
-  .carousel-control-prev {
-    left: 15px; /* Jarak dari kiri */
-  }
+            .carousel-control-prev {
+                left: 15px;
+                /* Jarak dari kiri */
+            }
 
-  .carousel-control-next {
-    right: 15px; /* Jarak dari kanan */
-  }
+            .carousel-control-next {
+                right: 15px;
+                /* Jarak dari kanan */
+            }
 
-  .carousel-control-prev:hover,
-  .carousel-control-next:hover {
-    background-color: rgba(0, 0, 0, 0.6); /* Warna saat hover */
-  }
+            .carousel-control-next:hover,
+            .carousel-control-prev:hover {
+                background-color: rgba(0, 0, 0, 0.6);
+                /* Warna saat hover */
+            }
 
-  .carousel-control-prev-icon,
-  .carousel-control-next-icon {
-    width: 20px; /* Ukuran icon */
-    height: 20px;
-    background-size: 100% 100%;
-  }
-</style>
+            .carousel-control-next-icon,
+            .carousel-control-prev-icon {
+                width: 20px;
+                /* Ukuran icon */
+                height: 20px;
+                background-size: 100% 100%;
+            }
+        </style>
 
         <!-- Portfolio Section -->
-       <section id="portfolio" class="container">
-    <h2 class="text-center section-title mb-5">Portofolio</h2>
-    
-    <!-- Carousel Container -->
-    <div id="portfolioCarousel" class="carousel slide" data-bs-ride="carousel">
-        <div class="carousel-inner">
-            <!-- Slide 1 (Active) -->
-            <div class="carousel-item active">
-                <div class="row">
-                    <div class="col-md-4 mb-4">
-                        <div class="card h-100">
-                            <img src="Assets/Img/IMG-20240516-WA0034.jpg" class="card-img-top" alt="Ixora Cosmetic">
-                            <div class="card-body">
-                                <h5 class="card-title">Ixora Cosmetic</h5>
-                                <p class="card-text">Logo untuk klinik kesehatan yang menawarkan layanan medis untuk kecantikan.</p>
+        <section id="portfolio" class="container">
+            <h2 class="text-center section-title mb-5">Portofolio</h2>
+
+            <!-- Carousel Container -->
+            <div id="portfolioCarousel" class="carousel slide" data-bs-ride="carousel">
+                <div class="carousel-inner">
+                    <!-- Slide 1 (Active) -->
+                    <div class="carousel-item active">
+                        <div class="row">
+                            <div class="col-md-4 mb-4">
+                                <div class="card h-100">
+                                    <img
+                                        src="Assets/Img/IMG-20240516-WA0034.jpg"
+                                        class="card-img-top"
+                                        alt="Ixora Cosmetic">
+                                    <div class="card-body">
+                                        <h5 class="card-title">Ixora Cosmetic</h5>
+                                        <p class="card-text">Logo untuk klinik kesehatan yang menawarkan layanan medis untuk kecantikan.</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4 mb-4">
+                                <div class="card h-100">
+                                    <img
+                                        src="Assets/Img/IMG-20240516-WA0045.jpg"
+                                        class="card-img-top"
+                                        alt="Berikabar Warkop">
+                                    <div class="card-body">
+                                        <h5 class="card-title">Berikabar Warkop</h5>
+                                        <p class="card-text">Logo untuk kafe yang menawarkan pengalaman kuliner yang santai dan elegan.</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4 mb-4">
+                                <div class="card h-100">
+                                    <img
+                                        src="Assets/Img/IMG-20240516-WA0025.jpg"
+                                        class="card-img-top"
+                                        alt="Sobatgn Mountain Gear">
+                                    <div class="card-body">
+                                        <h5 class="card-title">Sobatgn Mountain Gear</h5>
+                                        <p class="card-text">Logo untuk Toko perlatan lengkap untuk para pendaki hebat.</p>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-4 mb-4">
-                        <div class="card h-100">
-                            <img src="Assets/Img/IMG-20240516-WA0045.jpg" class="card-img-top" alt="Berikabar Warkop">
-                            <div class="card-body">
-                                <h5 class="card-title">Berikabar Warkop</h5>
-                                <p class="card-text">Logo untuk kafe yang menawarkan pengalaman kuliner yang santai dan elegan.</p>
+
+                    <!-- Slide 2 -->
+                    <div class="carousel-item">
+                        <div class="row">
+                            <div class="col-md-4 mb-4">
+                                <div class="card h-100">
+                                    <img src="Assets/Img/next-image1.jpg" class="card-img-top" alt="Project 4">
+                                    <div class="card-body">
+                                        <h5 class="card-title">Project 4</h5>
+                                        <p class="card-text">Deskripsi project 4.</p>
+                                    </div>
+                                </div>
                             </div>
-                        </div>
-                    </div>
-                    <div class="col-md-4 mb-4">
-                        <div class="card h-100">
-                            <img src="Assets/Img/IMG-20240516-WA0025.jpg" class="card-img-top" alt="Sobatgn Mountain Gear">
-                            <div class="card-body">
-                                <h5 class="card-title">Sobatgn Mountain Gear</h5>
-                                <p class="card-text">Logo untuk Toko perlatan lengkap untuk para pendaki hebat.</p>
+                            <div class="col-md-4 mb-4">
+                                <div class="card h-100">
+                                    <img src="Assets/Img/next-image2.jpg" class="card-img-top" alt="Project 5">
+                                    <div class="card-body">
+                                        <h5 class="card-title">Project 5</h5>
+                                        <p class="card-text">Deskripsi project 5.</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4 mb-4">
+                                <div class="card h-100">
+                                    <img src="Assets/Img/next-image3.jpg" class="card-img-top" alt="Project 6">
+                                    <div class="card-body">
+                                        <h5 class="card-title">Project 6</h5>
+                                        <p class="card-text">Deskripsi project 6.</p>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
+
+                <!-- Navigation Controls -->
+                <button
+                    class="carousel-control-prev"
+                    type="button"
+                    data-bs-target="#portfolioCarousel"
+                    data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden"></span>
+                </button>
+                <button
+                    class="carousel-control-next"
+                    type="button"
+                    data-bs-target="#portfolioCarousel"
+                    data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden"></span>
+                </button>
             </div>
+        </section>
 
-            <!-- Slide 2 -->
-            <div class="carousel-item">
-                <div class="row">
-                    <div class="col-md-4 mb-4">
-                        <div class="card h-100">
-                            <img src="Assets/Img/next-image1.jpg" class="card-img-top" alt="Project 4">
-                            <div class="card-body">
-                                <h5 class="card-title">Project 4</h5>
-                                <p class="card-text">Deskripsi project 4.</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-4 mb-4">
-                        <div class="card h-100">
-                            <img src="Assets/Img/next-image2.jpg" class="card-img-top" alt="Project 5">
-                            <div class="card-body">
-                                <h5 class="card-title">Project 5</h5>
-                                <p class="card-text">Deskripsi project 5.</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-4 mb-4">
-                        <div class="card h-100">
-                            <img src="Assets/Img/next-image3.jpg" class="card-img-top" alt="Project 6">
-                            <div class="card-body">
-                                <h5 class="card-title">Project 6</h5>
-                                <p class="card-text">Deskripsi project 6.</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
 
-        <!-- Navigation Controls -->
-        <button class="carousel-control-prev" type="button" data-bs-target="#portfolioCarousel" data-bs-slide="prev">
-            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-            <span class="visually-hidden"></span>
-        </button>
-        <button class="carousel-control-next" type="button" data-bs-target="#portfolioCarousel" data-bs-slide="next">
-            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-            <span class="visually-hidden"></span>
-        </button>
-    </div>
-</section>
-
-<!-- Pastikan Bootstrap JS sudah diinclude -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
         <!-- New Pricing Section -->
         <section id="pricing" class="pricing-section">
-        <div class="container">
-            <h2 class="text-center section-title">Paket Layanan Kami</h2>
-            <div class="row">
-                <!-- Starter Package -->
-                <div class="col-md-4">
-                    <div class="pricing-card">
-                        <div class="pricing-header starter">
-                            <h3 class="pricing-title">Starter Package</h3>
-                            <div class="pricing-timeline"><i class="far fa-clock"></i> 5-7 Hari</div>
+            <div class="container">
+                <h2 class="text-center section-title">Paket Layanan Kami</h2>
+                <div class="row">
+                    <!-- Starter Package -->
+                    <div class="col-md-4">
+                        <div class="pricing-card">
+                            <div class="pricing-header starter">
+                                <h3 class="pricing-title">Starter Package</h3>
+                                <div class="pricing-timeline">
+                                    <i class="far fa-clock"></i>
+                                    5-7 Hari</div>
+                            </div>
+                            <div class="pricing-features">
+                                <ul>
+                                    <li>Primary Logo</li>
+                                    <li>Color Palette</li>
+                                    <li>Typography Pairing</li>
+                                    <li>3D Mockups</li>
+                                    <li>A3 Bradboard Guideline</li>
+
+                                </ul>
+                            </div>
+                            <button
+                                id="btnShowOverlay"
+                                href="transaction.html"
+                                class="pricing-btn btn btn-outline-success">Pilih Paket</button>
                         </div>
-                        <div class="pricing-features">
-                            <ul>
-                                <li>Primary Logo</li>
-                                <li>Color Palette</li>
-                                <li>Typography Pairing</li>
-                                <li>3D Mockups</li>
-                                <li>A3 Bradboard Guideline</li>
-                       
-                            </ul>
-                        </div>
-                        <a href="register.html" class="pricing-btn btn btn-outline-success">Pilih Paket</a>
+    <!-- Tempat untuk Load Overlay Transaksi -->
+    <div id="transactionOverlay" class="overlay"></div>
                     </div>
-                </div>
-                
-                <!-- Exclusive Plus Package -->
-                <div class="col-md-4">
-                    <div class="pricing-card">
-                        <div class="pricing-header">
-                            <h3 class="pricing-title">Exclusive Plus</h3>
-                            <div class="pricing-timeline"><i class="far fa-clock"></i> 3-4 Minggu</div>
+
+                    <!-- Exclusive Plus Package -->
+                    <div class="col-md-4">
+                        <div class="pricing-card">
+                            <div class="pricing-header">
+                                <h3 class="pricing-title">Exclusive Plus</h3>
+                                <div class="pricing-timeline">
+                                    <i class="far fa-clock"></i>
+                                    3-4 Minggu</div>
+                            </div>
+                            <div class="pricing-features">
+                                <ul>
+                                    <li>Primary Logo</li>
+                                    <li>Logo Variation</li>
+                                    <li>Color Palette</li>
+                                    <li>Typography Pairing</li>
+                                    <li>3D Mockups</li>
+                                    <li>Brand Pattern/Element</li>
+                                    <li>Stationary Design</li>
+                                    <li>Social Media Kit</li>
+                                    <li>Brand Guidelines</li>
+                                </ul>
+                            </div>
+                            <a href="register.html" class="pricing-btn btn btn-outline-primary">Pilih Paket</a>
                         </div>
-                        <div class="pricing-features">
-                            <ul>
-                                <li>Primary Logo</li>
-                                <li>Logo Variation</li>
-                                <li>Color Palette</li>
-                                <li>Typography Pairing</li>
-                                <li>3D Mockups</li>
-                                <li>Brand Pattern/Element</li>
-                                <li>Stationary Design</li>
-                                <li>Social Media Kit</li>
-                                <li>Brand Guidelines</li>
-                            </ul>
-                        </div>
-                        <a href="register.html" class="pricing-btn btn btn-outline-primary">Pilih Paket</a>
                     </div>
-                </div>
-                
-                <!-- Premium Package -->
-                <div class="col-md-4">
-                    <div class="pricing-card">
-                        <div class="pricing-header premium">
-                            <h3 class="pricing-title">Premium Package</h3>
-                            <div class="pricing-timeline"><i class="far fa-clock"></i> 12 Minggu</div>
+
+                    <!-- Premium Package -->
+                    <div class="col-md-4">
+                        <div class="pricing-card">
+                            <div class="pricing-header premium">
+                                <h3 class="pricing-title">Premium Package</h3>
+                                <div class="pricing-timeline">
+                                    <i class="far fa-clock"></i>
+                                    12 Minggu</div>
+                            </div>
+                            <div class="pricing-features">
+                                <ul>
+                                    <li>Primary Logo</li>
+                                    <li>Logo Variation</li>
+                                    <li>Color Palette</li>
+                                    <li>Typography Pairing</li>
+                                    <li>3D Mockups</li>
+                                    <li>Brand Guidelines</li>
+                                    <li>Unlimited Revisions</li>
+                                    <li>Priority Support</li>
+                                    <li>Dedicated Designer</li>
+                                </ul>
+                            </div>
+                            <a href="register.html" class="pricing-btn btn btn-outline-warning">Pilih Paket</a>
                         </div>
-                        <div class="pricing-features">
-                            <ul>
-                                <li>Primary Logo</li>
-                                <li>Logo Variation</li>
-                                <li>Color Palette</li>
-                                <li>Typography Pairing</li>
-                                <li>3D Mockups</li>
-                                <li>Brand Guidelines</li>
-                                <li>Unlimited Revisions</li>
-                                <li>Priority Support</li>
-                                <li>Dedicated Designer</li>
-                            </ul>
-                        </div>
-                        <a href="register.html" class="pricing-btn btn btn-outline-warning">Pilih Paket</a>
                     </div>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
 
         <!-- About Section -->
         <section id="about" class="bg-light py-5">
@@ -316,14 +357,18 @@
 
         <!-- Scripts -->
         <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+        <!-- Pastikan Bootstrap JS sudah diinclude -->
+        <script
+            src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
         <script
             src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
         <script
             src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
         <script>
-        // <script src="assets/js/scripts.js"></script>
-        // <script src="assets/js/pricing.js"></script>
-
+            // <script src="assets/js/scripts.js"></script>
+            <script script src = "Assets/js/pricing.js" >
         </script>
-    </body>
+        <script src="Assets/js/script.js"></script>
+    </script>
+</body>
 </html>
