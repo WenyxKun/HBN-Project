@@ -1,63 +1,203 @@
-// Load overlay transaksi dari file terpisah
-document.getElementById('btnShowOverlay').addEventListener('click', function() {
-    const overlay = document.getElementById('transactionOverlay');
-    
-    // Nonaktifkan scroll body
-    document.body.classList.add('body-no-scroll');
-    
-    // Fetch file transaction.html
+let scrollPosition = 0;
+
+document.getElementById('btnStarter').addEventListener('click', function(e) {
+  e.preventDefault();
+  
+
+  const paketType = this.getAttribute('data-paket');
+  
+  const overlay = document.getElementById('transactionOverlay');
+  scrollPosition = window.pageYOffset || document.documentElement.scrollTop;
+  
+  // 1. Lock scroll position
+  document.body.style.position = 'fixed';
+  document.body.style.top = `-${scrollPosition}px`;
+  document.body.style.width = '100%';
+  
+  // 2. Show overlay
+  overlay.style.display = 'flex';
+
+  
+ // 3. Load konten dari transaction.html (diubah untuk 1 file)
     fetch('transaction.html')
-        .then(response => response.text())
-        .then(html => {
-            overlay.innerHTML = html;
-            overlay.style.display = 'flex'; // Gunakan flex untuk centering
-            
-      // Initialize Font Awesome (if needed)
-      if(!document.querySelector('.fa')) {
-        const faScript = document.createElement('script');
-        faScript.src = 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/js/all.min.js';
-        document.head.appendChild(faScript);
-      }
+      .then(response => response.text())
+      .then(html => {
+        // Parse HTML untuk ekstrak konten spesifik paket
+        const parser = new DOMParser();
+        const doc = parser.parseFromString(html, 'text/html');
+        const paketContent = doc.querySelector(`.overlay-content[data-paket="${paketType}"]`);
+        
+        if (paketContent) {
+          overlay.innerHTML = paketContent.outerHTML;
+          overlay.style.display = 'flex';
       
-      // Interval selector functionality
-      const decreaseBtn = overlay.querySelector('#decreaseBtn');
-      const increaseBtn = overlay.querySelector('#increaseBtn');
-      const intervalInput = overlay.querySelector('#intervalInput');
+      // 4. Reset overlay scroll
+      const content = overlay.querySelector('.overlay-content');
+      if (content) content.scrollTop = 0;
       
-      decreaseBtn.addEventListener('click', () => {
-        let currentValue = parseInt(intervalInput.value);
-        if (currentValue > 2) {
-          intervalInput.value = currentValue - 1;
+            // 5. Initialize interactive elements
+          initOverlayComponents();
+        } else {
+          throw new Error(`Konten paket ${paketType} tidak ditemukan`);
         }
-      });
+      })
+      .catch(error => {
+        console.error('Error loading overlay:', error);
+        closeOverlay();
+    });
+});
+
+document.getElementById('btnExclusive').addEventListener('click', function(e) {
+  e.preventDefault();
+  
+
+  const paketType = this.getAttribute('data-paket');
+  
+  const overlay = document.getElementById('transactionOverlay');
+  scrollPosition = window.pageYOffset || document.documentElement.scrollTop;
+  
+  // 1. Lock scroll position
+  document.body.style.position = 'fixed';
+  document.body.style.top = `-${scrollPosition}px`;
+  document.body.style.width = '100%';
+  
+  // 2. Show overlay
+  overlay.style.display = 'flex';
+
+  
+ // 3. Load konten dari transaction.html (diubah untuk 1 file)
+    fetch('transaction.html')
+      .then(response => response.text())
+      .then(html => {
+        // Parse HTML untuk ekstrak konten spesifik paket
+        const parser = new DOMParser();
+        const doc = parser.parseFromString(html, 'text/html');
+        const paketContent = doc.querySelector(`.overlay-content[data-paket="${paketType}"]`);
+        
+        if (paketContent) {
+          overlay.innerHTML = paketContent.outerHTML;
+          overlay.style.display = 'flex';
       
-      increaseBtn.addEventListener('click', () => {
-        let currentValue = parseInt(intervalInput.value);
-        if (currentValue < 5) {
-          intervalInput.value = currentValue + 1;
+      // 4. Reset overlay scroll
+      const content = overlay.querySelector('.overlay-content');
+      if (content) content.scrollTop = 0;
+      
+            // 5. Initialize interactive elements
+          initOverlayComponents();
+        } else {
+          throw new Error(`Konten paket ${paketType} tidak ditemukan`);
         }
-      });
+      })
+      .catch(error => {
+        console.error('Error loading overlay:', error);
+        closeOverlay();
+    });
+});
+
+document.getElementById('btnPremium').addEventListener('click', function(e) {
+  e.preventDefault();
+  
+
+  const paketType = this.getAttribute('data-paket');
+  
+  const overlay = document.getElementById('transactionOverlay');
+  scrollPosition = window.pageYOffset || document.documentElement.scrollTop;
+  
+  // 1. Lock scroll position
+  document.body.style.position = 'fixed';
+  document.body.style.top = `-${scrollPosition}px`;
+  document.body.style.width = '100%';
+  
+  // 2. Show overlay
+  overlay.style.display = 'flex';
+
+  
+ // 3. Load konten dari transaction.html (diubah untuk 1 file)
+    fetch('transaction.html')
+      .then(response => response.text())
+      .then(html => {
+        // Parse HTML untuk ekstrak konten spesifik paket
+        const parser = new DOMParser();
+        const doc = parser.parseFromString(html, 'text/html');
+        const paketContent = doc.querySelector(`.overlay-content[data-paket="${paketType}"]`);
+        
+        if (paketContent) {
+          overlay.innerHTML = paketContent.outerHTML;
+          overlay.style.display = 'flex';
       
-      intervalInput.addEventListener('input', () => {
-        let val = parseInt(intervalInput.value);
-        if (isNaN(val) || val < 2) {
-          intervalInput.value = 2;
-        } else if (val > 5) {
-          intervalInput.value = 5;
+      // 4. Reset overlay scroll
+      const content = overlay.querySelector('.overlay-content');
+      if (content) content.scrollTop = 0;
+      
+            // 5. Initialize interactive elements
+          initOverlayComponents();
+        } else {
+          throw new Error(`Konten paket ${paketType} tidak ditemukan`);
         }
-      });
-      
-      // Close buttons
-      overlay.querySelector('#btnCloseOverlay').addEventListener('click', closeOverlay);
-      overlay.querySelector('#btnCancel').addEventListener('click', closeOverlay);
-    })
-    .catch(error => {
-      console.error('Error loading overlay:', error);
-      closeOverlay();
+      })
+      .catch(error => {
+        console.error('Error loading overlay:', error);
+        closeOverlay();
+    });
+});
+
+function initOverlayComponents() {
+  // Interval selector
+  const decreaseBtn = document.getElementById('decreaseBtn');
+  const increaseBtn = document.getElementById('increaseBtn');
+  const intervalInput = document.getElementById('intervalInput');
+  
+  if (decreaseBtn && increaseBtn && intervalInput) {
+    decreaseBtn.addEventListener('click', () => {
+      let val = parseInt(intervalInput.value);
+      intervalInput.value = val > 2 ? val - 1 : 2;
     });
     
-  function closeOverlay() {
-    overlay.style.display = 'none';
-    document.body.classList.remove('body-no-scroll');
+    increaseBtn.addEventListener('click', () => {
+      let val = parseInt(intervalInput.value);
+      intervalInput.value = val < 5 ? val + 1 : 5;
+    });
+    
+    intervalInput.addEventListener('input', () => {
+      let val = parseInt(intervalInput.value) || 2;
+      intervalInput.value = Math.min(Math.max(val, 2), 5);
+    });
+  }
+  
+  // Close button
+   const closeBtn = document.getElementById('btnCloseOverlay');
+      if (closeBtn) {
+        closeBtn.addEventListener('click', closeOverlay);
+      } else {
+        console.error('Tombol close tidak ditemukan!');
+      }
+      
+}
+
+function closeOverlay() {
+  const overlay = document.getElementById('transactionOverlay');
+  
+  // 1. Hide overlay
+  overlay.style.display = 'none';
+  
+  // 2. Restore scroll
+  document.body.style.position = '';
+  document.body.style.top = '';
+  document.body.style.width = '';
+  window.scrollTo(0, scrollPosition);
+  
+  // 3. Force reflow for mobile browsers
+  setTimeout(() => {
+    document.documentElement.style.scrollBehavior = 'auto';
+    window.scrollTo(0, scrollPosition);
+    document.documentElement.style.scrollBehavior = '';
+  }, 20);
+}
+
+// Event delegation untuk tombol close
+document.addEventListener('click', function(e) {
+  if (e.target.closest('#btnCloseOverlay')) {
+    closeOverlay();
   }
 });
+

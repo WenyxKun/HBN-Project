@@ -45,7 +45,7 @@
                         <a class="nav-link" href="#contact">Kontak</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="">Masuk</a>
+                        <a class="nav-link" href="login.html">Masuk</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="register.html">Daftar</a>
@@ -237,14 +237,17 @@
                                 </ul>
                             </div>
                             <button
-                                id="btnShowOverlay"
+                                id="btnStarter"
                                 href="transaction.html"
-                                class="pricing-btn btn btn-outline-success">Pilih Paket</button>
+                                class="pricing-btn btn btn-outline-success"
+                                data-paket="starter">Pilih Paket</button>
                         </div>
-    <!-- Tempat untuk Load Overlay Transaksi -->
-    <div id="transactionOverlay" class="overlay"></div>
+                            <!-- Tempat untuk Load Overlay Transaksi -->
+                            <div id="transactionOverlay" class="overlay"></div>
                     </div>
 
+
+                    
                     <!-- Exclusive Plus Package -->
                     <div class="col-md-4">
                         <div class="pricing-card">
@@ -267,9 +270,16 @@
                                     <li>Brand Guidelines</li>
                                 </ul>
                             </div>
-                            <a href="register.html" class="pricing-btn btn btn-outline-primary">Pilih Paket</a>
+                        <button
+                            id="btnExclusive"
+                            href="transaction.html" 
+                            class="pricing-btn btn btn-outline-primary" 
+                            data-paket="exclusive">Pilih Paket</button>
                         </div>
+
                     </div>
+
+                    
 
                     <!-- Premium Package -->
                     <div class="col-md-4">
@@ -293,7 +303,11 @@
                                     <li>Dedicated Designer</li>
                                 </ul>
                             </div>
-                            <a href="register.html" class="pricing-btn btn btn-outline-warning">Pilih Paket</a>
+                            <button
+                            id="btnPremium"
+                            href="transaction.html" 
+                            class="pricing-btn btn btn-outline-warning"
+                            data-paket="premium">Pilih Paket</button>
                         </div>
                     </div>
                 </div>
@@ -364,10 +378,7 @@
             src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
         <script
             src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-        <script>
-            // <script src="assets/js/scripts.js"></script>
-            <script script src = "Assets/js/pricing.js" >
-        </script>
+        <script src = "Assets/js/pricing.js" ></script>
         <script src="Assets/js/script.js"></script>
     </script>
 </body>

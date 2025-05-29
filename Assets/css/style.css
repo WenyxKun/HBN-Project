@@ -129,18 +129,44 @@ footer {
   background-color: rgba(0,0,0,0.5);
   display: none;
   justify-content: center;
-  align-items: center;
+  align-items: flex-start;
   z-index: 1000;
+  padding: 20px 0; 
 }
 
 .overlay-content {
   background: white;
   width: 90%;
-  max-width: 500px;
+  max-width: 800px;
+  max-height: 80vh;
+  margin: auto;
   border-radius: 12px;
   padding: 20px;
   max-height: 90vh;
-  overflow-y: auto;
+  overflow-y: scroll;
+  overscroll-behavior: contain;
+}
+
+/* Smooth scrolling untuk konten panjang */
+.overlay-content {
+  scroll-behavior: smooth;
+}
+
+.overlay-content::-webkit-scrollbar {
+  width: 8px;
+}
+
+.overlay-content::-webkit-scrollbar-thumb {
+  background: #c1c1c1;
+  border-radius: 4px;
+}
+
+.overlay-content::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+.overlay-content {
+  -webkit-overflow-scrolling: touch; /* Smooth scroll di iOS */
 }
 
 /* Header */
@@ -372,6 +398,7 @@ input[type=number] {
 /* Nonaktifkan scroll body saat overlay aktif */
 .body-no-scroll {
   overflow: hidden;
+  position: fixed;
   width: 100%;
 }
 
