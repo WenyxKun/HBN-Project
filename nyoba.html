@@ -1,0 +1,1002 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pilih Paket - HBN Production</title>
+    <!-- SweetAlert2 CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+   <style >
+.package-container {
+    display: flex;
+    gap: 30px;
+    justify-content: center;
+    padding: 30px;
+    height: 95%;
+}
+
+.package-container {
+    border: none;
+    border-radius: 15px;
+    transition: all 0.3s;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+    margin-bottom: 30px;
+    margin-top: 50px;
+    overflow: hidden;
+    background: white;
+    
+
+}
+
+.package-btn {
+    width: 400px;
+    padding: 0; /* Ubah dari 20px ke 0 */
+    border-radius: 15px;
+    text-align: center;
+    cursor: pointer;
+    transition: transform 0.3s;
+    overflow: hidden; /* Tambahkan ini */
+    background: white; /* Background putih untuk card */
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1); /* Shadow halus */
+}
+.package-btn:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.178);
+}
+.starter {
+    background-color: #d4edda;
+    border: 2px solid #28a745;
+}
+.exclusive {
+    background-color: #d1ecf1;
+    border: 2px solid #17a2b8;
+}
+.premium {
+    background-color: #fff3cd;
+    border: 2px solid #ffc107;
+}
+
+.pricing-card {
+    border: none;
+    border-radius: 15px;
+    transition: all 0.3s;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+    margin-bottom: 30px;
+    overflow: hidden;
+    background: white;
+    width: 100%;
+
+}
+
+.pricing-card {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.pricing-header {
+    padding: 30px;
+    text-align: center;
+    background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+    color: white;
+}
+
+.pricing-header.starter {
+
+    background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+}
+
+.pricing-header.premium {
+    background: linear-gradient(135deg, #f12711 0%, #f5af19 100%);
+}
+
+.pricing-title {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 10px;
+}
+
+.pricing-price {
+    font-size: 2.5rem;
+    font-weight: 700;
+}
+
+.pricing-period {
+    font-size: 1rem;
+    opacity: 0.8;
+}
+
+.pricing-features {
+    padding: 30px;
+    flex: 1;
+    
+}
+
+.pricing-features ul {
+    list-style: none;
+    padding: 0;
+}
+
+.pricing-features li {
+    padding: 8px 0;
+    position: relative;
+    padding-left: 10px;
+}
+
+.pricing-features li:before {
+    content: "\f00c";
+    font-family: "Font Awesome 5 Free";
+    font-weight: 900;
+    position: absolute;
+    left: 0;
+    color: #28a745;
+}
+
+.pricing-timeline {
+    display: inline-block;
+    padding: 5px 15px;
+    background: rgba(255,255,255,0.2);
+    border-radius: 20px;
+    font-size: 0.9rem;
+    margin-top: 10px;
+}
+
+.pricing-btn {
+    display: block;
+    width: 80%;
+    margin: 20px auto;
+    padding: 10px;
+    text-align: center;
+    border: 2px solid transparent;
+    border-radius: 30px;
+    font-weight: 600;
+    transition: all 0.3s;
+}
+
+.pricing-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+.section-title {
+    margin-bottom: 60px;
+    position: relative;
+}
+
+.section-title:after {
+    content: "";
+    position: absolute;
+    bottom: -15px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80px;
+    height: 3px;
+    background: linear-gradient(to right, #6a11cb, #2575fc);
+}
+
+.section-title {
+    text-align: center; /* Memposisikan teks di tengah */
+    margin: 40px 0; /* Memberikan jarak atas dan bawah */
+    width: 100%; /* Memastikan lebar penuh */
+    position: relative; /* Untuk pseudo-element jika diperlukan */
+}
+
+
+</style>
+</head>
+<body>
+
+    <h2 class="section-title">Paket Layanan Kami</h2>
+               
+         
+    <div class="package-container">
+        
+        <!-- Tombol Paket Starter -->
+        <div class="package-btn starter" onclick="showPackageWizard('starter')">
+                        <div class="pricing-card">
+                            <div class="pricing-header starter">
+                                <h3 class="pricing-title">Starter Package</h3>
+                                <div class="pricing-timeline">
+                                    <i class="far fa-clock"></i>
+                                    5-7 Hari</div>
+                            </div>
+                            <div class="pricing-features">
+                                <ul>
+                                    <li>Primary Logo</li>
+                                    <li>Color Palette</li>
+                                    <li>Typography Pairing</li>
+                                    <li>3D Mockups</li>
+                                    <li>A3 Bradboard Guideline</li>
+
+                                </ul>
+                            </div>
+                            <button
+                                id="btnStarter"
+                                href="transaction.html"
+                                class="pricing-btn btn btn-outline-success"
+                                data-paket="starter">Pilih Paket</button>
+                        </div>
+                            <!-- Tempat untuk Load Overlay Transaksi
+                            <div id="transactionOverlay" class="overlay"></div> -->
+            
+        </div>
+
+        <!-- Tombol Paket Exclusive -->
+        <div class="package-btn exclusive" onclick="showPackageWizard('exclusive')">
+ <div class="pricing-card">
+                            <div class="pricing-header">
+                                <h3 class="pricing-title">Exclusive Plus</h3>
+                                <div class="pricing-timeline">
+                                    <i class="far fa-clock"></i>
+                                    3-4 Minggu</div>
+                            </div>
+                            <div class="pricing-features">
+                                <ul>
+                                    <li>Primary Logo</li>
+                                    <li>Logo Variation</li>
+                                    <li>Color Palette</li>
+                                    <li>Typography Pairing</li>
+                                    <li>3D Mockups</li>
+                                    <li>Brand Pattern/Element</li>
+                                    <li>Stationary Design</li>
+                                    <li>Social Media Kit</li>
+                                    <li>Brand Guidelines</li>
+                                </ul>
+                            </div>
+                        <button
+                            id="btnExclusive"
+                            href="transaction.html" 
+                            class="pricing-btn btn btn-outline-primary" 
+                            data-paket="exclusive">Pilih Paket</button>
+                        </div>
+        </div>
+
+        <!-- Tombol Paket Premium -->
+        <div class="package-btn premium" onclick="showPackageWizard('premium')">
+                        <div class="pricing-card">
+                            <div class="pricing-header premium">
+                                <h3 class="pricing-title">Premium Package</h3>
+                                <div class="pricing-timeline">
+                                    <i class="far fa-clock"></i>
+                                    12 Minggu</div>
+                            </div>
+                            <div class="pricing-features">
+                                <ul>
+                                    <li>Primary Logo</li>
+                                    <li>Logo Variation</li>
+                                    <li>Color Palette</li>
+                                    <li>Typography Pairing</li>
+                                    <li>3D Mockups</li>
+                                    <li>Brand Guidelines</li>
+                                    <li>Unlimited Revisions</li>
+                                    <li>Priority Support</li>
+                                    <li>Dedicated Designer</li>
+                                </ul>
+                            </div>
+
+                            
+                            <button
+                            id="btnPremium"
+                            href="transaction.html" 
+                            class="pricing-btn btn btn-outline-warning"
+                            data-paket="premium">Pilih Paket</button>
+                        </div>
+        </div>
+    </div>
+
+    <!-- SweetAlert2 JS -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        // Konfigurasi wizard untuk setiap paket
+        const packageConfigs = {
+            starter: {
+                title: "Starter Package",
+                steps: [
+                    { 
+                        title: "Deskripsi Paket", 
+                        html: `
+                            <p><strong>Order ID:</strong> 2FDFKAM2</p>
+                            <p>Layanan dasar dengan timeline 5-7 hari kerja</p>
+                            <div class="info-box" style="background:#f8f9fa;padding:15px;border-radius:5px;margin-top:10px">
+                                <p>2 interval pembayaran</p>
+                                <p>biaya mulai: <strong>Rp 99.500</strong></p>
+                                <p>biaya akhir: <strong>Rp 99.500</strong></p>
+                                <p>Total biaya: <strong>Rp 199.000</strong></p>
+                            </div>
+                        `,
+                        icon: "info"
+                    },
+{ 
+    title: "Deskripsi & Upload Dokumen", 
+    html: `
+        <div class="form-group">
+            <label>Deskripsi Proyek*</label>
+            <textarea 
+                id="projectDescription" 
+                class="form-control" 
+                rows="3" 
+                placeholder="Jelaskan detail proyek Anda..."
+                style="width:100%; margin-bottom:15px; padding:8px; border-radius:5px; border:1px solid #ddd"
+                required
+            ></textarea>
+            <div id="descError" style="color:red; font-size:12px; display:none; margin-top:5px">
+                <i class="fas fa-exclamation-circle"></i> Deskripsi wajib diisi
+            </div>
+        </div>
+        
+        <div class="form-group">
+            <label>Upload Referensi (Maks 3 foto)</label>
+            <div id="imagePreview" style="
+                display: flex;
+                flex-wrap: wrap;
+                gap: 10px;
+                margin-bottom: 15px;
+                min-height: 90px;
+                border: 2px dashed #eee;
+                padding: 10px;
+                border-radius: 5px;
+            ">
+                <div style="
+                    width:100%;
+                    text-align:center;
+                    color:#6c757d;
+                    padding:20px 0;
+                ">
+                    <i class="fas fa-images" style="font-size:24px"></i>
+                    <p style="margin-top:5px">Belum ada foto</p>
+                </div>
+            </div>
+            
+            <input 
+                type="file" 
+                id="imageUpload" 
+                accept="image/*" 
+                multiple
+                style="display:none"
+                onchange="handleFileUpload(this)"
+            >
+            
+            <button 
+                type="button"
+                onclick="document.getElementById('imageUpload').click()" 
+                style="
+                    width: 100%;
+                    padding: 10px;
+                    background: #f8f9fa;
+                    border: 1px solid #ddd;
+                    border-radius: 5px;
+                    cursor: pointer;
+                    transition: all 0.3s;
+                "
+                onmouseover="this.style.background='#e9ecef'" 
+                onmouseout="this.style.background='#f8f9fa'"
+            >
+                <i class="fas fa-cloud-upload-alt"></i> Pilih Foto
+            </button>
+            <small style="display:block; margin-top:5px; color:#6c757d">
+                Format: JPG/PNG (Maks 2MB per foto)
+            </small>
+        </div>
+    `,
+    icon: "info",
+    didOpen: () => {
+        // Inisialisasi variabel untuk menyimpan file
+        window.uploadedFiles = [];
+        
+        // Fungsi untuk menampilkan preview
+        window.handleFileUpload = function(input) {
+            const preview = document.getElementById('imagePreview');
+            const files = input.files;
+            
+            // Reset dan batasi maksimal 3 file
+            if (files.length > 3) {
+                Swal.showValidationMessage('Maksimal 3 foto yang diupload');
+                return;
+            }
+            
+            // Validasi ukuran file
+            for (let file of files) {
+                if (file.size > 2 * 1024 * 1024) {
+                    Swal.showValidationMessage(`File ${file.name} melebihi 2MB`);
+                    return;
+                }
+            }
+            
+            // Simpan file
+            window.uploadedFiles = Array.from(files);
+            
+            // Tampilkan preview
+            preview.innerHTML = '';
+            
+            if (window.uploadedFiles.length === 0) {
+                preview.innerHTML = `
+                    <div style="
+                        width:100%;
+                        text-align:center;
+                        color:#6c757d;
+                        padding:20px 0;
+                    ">
+                        <i class="fas fa-images" style="font-size:24px"></i>
+                        <p style="margin-top:5px">Belum ada foto</p>
+                    </div>
+                `;
+            } else {
+                window.uploadedFiles.forEach((file, index) => {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        const previewItem = document.createElement('div');
+                        previewItem.style.position = 'relative';
+                        previewItem.style.width = '80px';
+                        
+                        // Gambar preview
+                        const img = document.createElement('img');
+                        img.src = e.target.result;
+                        img.style.width = '80px';
+                        img.style.height = '80px';
+                        img.style.objectFit = 'cover';
+                        img.style.borderRadius = '5px';
+                        img.style.border = '1px solid #ddd';
+                        
+                        // Tombol hapus
+                        const deleteBtn = document.createElement('button');
+                        deleteBtn.innerHTML = '<i class="fas fa-times"></i>';
+                        deleteBtn.style.position = 'absolute';
+                        deleteBtn.style.top = '-5px';
+                        deleteBtn.style.right = '-5px';
+                        deleteBtn.style.background = 'red';
+                        deleteBtn.style.color = 'white';
+                        deleteBtn.style.border = 'none';
+                        deleteBtn.style.borderRadius = '50%';
+                        deleteBtn.style.width = '20px';
+                        deleteBtn.style.height = '20px';
+                        deleteBtn.style.cursor = 'pointer';
+                        deleteBtn.style.display = 'flex';
+                        deleteBtn.style.alignItems = 'center';
+                        deleteBtn.style.justifyContent = 'center';
+                        deleteBtn.style.fontSize = '10px';
+                        deleteBtn.onclick = (event) => {
+                            event.stopPropagation();
+                            window.uploadedFiles.splice(index, 1);
+                            handleFileUpload({ files: window.uploadedFiles });
+                        };
+                        
+                        previewItem.appendChild(img);
+                        previewItem.appendChild(deleteBtn);
+                        preview.appendChild(previewItem);
+                    };
+                    reader.readAsDataURL(file);
+                });
+            }
+        };
+    },
+    preConfirm: () => {
+        const desc = document.getElementById('projectDescription').value;
+        const descError = document.getElementById('descError');
+        
+        // Validasi deskripsi
+        if (!desc || desc.trim() === '') {
+            descError.style.display = 'block';
+            Swal.showValidationMessage('Deskripsi proyek harus diisi');
+            return false;
+        } else {
+            descError.style.display = 'none';
+        }
+        
+        return {
+            description: desc,
+            images: window.uploadedFiles || []
+        };
+    }
+},
+                    { 
+                        title: "Konfirmasi", 
+                        html: `
+                            <p>Anda akan memesan <strong>Starter Package</strong></p>
+                            <p>Total: Rp 500.000</p>
+                            <div class="form-group">
+                                <label>Email untuk konfirmasi</label>
+                                <input type="email" placeholder="your@email.com" style="width:100%;padding:8px">
+                            </div>
+                        `,
+                        icon: "warning",
+                        confirmButtonText: "Konfirmasi Pembelian"
+                    }
+                ]
+            },
+            exclusive: {
+                title: "Exclusive Plus",
+                steps: [
+                    { 
+                        title: "Deskripsi Paket", 
+                        html: `
+                            <p><strong>Order ID:</strong> EX-2FDFKAM2</p>
+                            <p>Layanan premium dengan timeline 3-4 minggu</p>
+                            <div class="info-box" style="background:#f8f9fa;padding:15px;border-radius:5px;margin-top:10px">
+                                <p>2 interval pembayaran</p>
+                                <p>biaya mulai: <strong>Rp 249.500</strong></p>
+                                <p>biaya akhir: <strong>Rp 249.500</strong></p>
+                                <p>Total biaya: <strong>Rp 499.000</strong></p>
+                                <p>Termasuk revisi 3x</p>
+                            </div>
+                        `,
+                        icon: "info"
+                    },
+                   { 
+    title: "Deskripsi & Upload Dokumen", 
+    html: `
+        <div class="form-group">
+            <label>Deskripsi Proyek*</label>
+            <textarea 
+                id="projectDescription" 
+                class="form-control" 
+                rows="3" 
+                placeholder="Jelaskan detail proyek Anda..."
+                style="width:100%; margin-bottom:15px; padding:8px; border-radius:5px; border:1px solid #ddd"
+                required
+            ></textarea>
+            <div id="descError" style="color:red; font-size:12px; display:none; margin-top:5px">
+                <i class="fas fa-exclamation-circle"></i> Deskripsi wajib diisi
+            </div>
+        </div>
+        
+        <div class="form-group">
+            <label>Upload Referensi (Maks 3 foto)</label>
+            <div id="imagePreview" style="
+                display: flex;
+                flex-wrap: wrap;
+                gap: 10px;
+                margin-bottom: 15px;
+                min-height: 90px;
+                border: 2px dashed #eee;
+                padding: 10px;
+                border-radius: 5px;
+            ">
+                <div style="
+                    width:100%;
+                    text-align:center;
+                    color:#6c757d;
+                    padding:20px 0;
+                ">
+                    <i class="fas fa-images" style="font-size:24px"></i>
+                    <p style="margin-top:5px">Belum ada foto</p>
+                </div>
+            </div>
+            
+            <input 
+                type="file" 
+                id="imageUpload" 
+                accept="image/*" 
+                multiple
+                style="display:none"
+                onchange="handleFileUpload(this)"
+            >
+            
+            <button 
+                type="button"
+                onclick="document.getElementById('imageUpload').click()" 
+                style="
+                    width: 100%;
+                    padding: 10px;
+                    background: #f8f9fa;
+                    border: 1px solid #ddd;
+                    border-radius: 5px;
+                    cursor: pointer;
+                    transition: all 0.3s;
+                "
+                onmouseover="this.style.background='#e9ecef'" 
+                onmouseout="this.style.background='#f8f9fa'"
+            >
+                <i class="fas fa-cloud-upload-alt"></i> Pilih Foto
+            </button>
+            <small style="display:block; margin-top:5px; color:#6c757d">
+                Format: JPG/PNG (Maks 2MB per foto)
+            </small>
+        </div>
+    `,
+    icon: "info",
+    didOpen: () => {
+        // Inisialisasi variabel untuk menyimpan file
+        window.uploadedFiles = [];
+        
+        // Fungsi untuk menampilkan preview
+        window.handleFileUpload = function(input) {
+            const preview = document.getElementById('imagePreview');
+            const files = input.files;
+            
+            // Reset dan batasi maksimal 3 file
+            if (files.length > 3) {
+                Swal.showValidationMessage('Maksimal 3 foto yang diupload');
+                return;
+            }
+            
+            // Validasi ukuran file
+            for (let file of files) {
+                if (file.size > 2 * 1024 * 1024) {
+                    Swal.showValidationMessage(`File ${file.name} melebihi 2MB`);
+                    return;
+                }
+            }
+            
+            // Simpan file
+            window.uploadedFiles = Array.from(files);
+            
+            // Tampilkan preview
+            preview.innerHTML = '';
+            
+            if (window.uploadedFiles.length === 0) {
+                preview.innerHTML = `
+                    <div style="
+                        width:100%;
+                        text-align:center;
+                        color:#6c757d;
+                        padding:20px 0;
+                    ">
+                        <i class="fas fa-images" style="font-size:24px"></i>
+                        <p style="margin-top:5px">Belum ada foto</p>
+                    </div>
+                `;
+            } else {
+                window.uploadedFiles.forEach((file, index) => {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        const previewItem = document.createElement('div');
+                        previewItem.style.position = 'relative';
+                        previewItem.style.width = '80px';
+                        
+                        // Gambar preview
+                        const img = document.createElement('img');
+                        img.src = e.target.result;
+                        img.style.width = '80px';
+                        img.style.height = '80px';
+                        img.style.objectFit = 'cover';
+                        img.style.borderRadius = '5px';
+                        img.style.border = '1px solid #ddd';
+                        
+                        // Tombol hapus
+                        const deleteBtn = document.createElement('button');
+                        deleteBtn.innerHTML = '<i class="fas fa-times"></i>';
+                        deleteBtn.style.position = 'absolute';
+                        deleteBtn.style.top = '-5px';
+                        deleteBtn.style.right = '-5px';
+                        deleteBtn.style.background = 'red';
+                        deleteBtn.style.color = 'white';
+                        deleteBtn.style.border = 'none';
+                        deleteBtn.style.borderRadius = '50%';
+                        deleteBtn.style.width = '20px';
+                        deleteBtn.style.height = '20px';
+                        deleteBtn.style.cursor = 'pointer';
+                        deleteBtn.style.display = 'flex';
+                        deleteBtn.style.alignItems = 'center';
+                        deleteBtn.style.justifyContent = 'center';
+                        deleteBtn.style.fontSize = '10px';
+                        deleteBtn.onclick = (event) => {
+                            event.stopPropagation();
+                            window.uploadedFiles.splice(index, 1);
+                            handleFileUpload({ files: window.uploadedFiles });
+                        };
+                        
+                        previewItem.appendChild(img);
+                        previewItem.appendChild(deleteBtn);
+                        preview.appendChild(previewItem);
+                    };
+                    reader.readAsDataURL(file);
+                });
+            }
+        };
+    },
+    preConfirm: () => {
+        const desc = document.getElementById('projectDescription').value;
+        const descError = document.getElementById('descError');
+        
+        // Validasi deskripsi
+        if (!desc || desc.trim() === '') {
+            descError.style.display = 'block';
+            Swal.showValidationMessage('Deskripsi proyek harus diisi');
+            return false;
+        } else {
+            descError.style.display = 'none';
+        }
+        
+        return {
+            description: desc,
+            images: window.uploadedFiles || []
+        };
+    }
+},
+                    { 
+                        title: "Konfirmasi", 
+                        html: `
+                            <p>Anda akan memesan <strong>Exclusive Plus</strong></p>
+                            <p>Total: Rp 1.500.000</p>
+                            <div class="form-group">
+                                <label>No. Telepon</label>
+                                <input type="tel" placeholder="0812-XXXX-XXXX" style="width:100%;padding:8px">
+                            </div>
+                        `,
+                        icon: "warning",
+                        confirmButtonText: "Konfirmasi Pembelian"
+                    }
+                ]
+            },
+            premium: {
+                title: "Premium Package",
+                steps: [
+                    { 
+                        title: "Deskripsi Paket", 
+                        html: `
+                            <p><strong>Order ID:</strong> PM-2FDFKAM2</p>
+                            <p>Layanan lengkap dengan timeline 12 minggu</p>
+                            <div class="info-box" style="background:#f8f9fa;padding:15px;border-radius:5px;margin-top:10px">
+                                    <p>2 interval pembayaran</p>
+                                <p>biaya mulai: <strong>Rp 499.500</strong></p>
+                                <p>biaya akhir: <strong>Rp 499.500</strong></p>
+                                <p>Total biaya: <strong>Rp 999.000</strong></p>
+                                <p>Termasuk unlimited revisi</p>
+                            </div>
+                        `,
+                        icon: "info"
+                    },
+                { 
+    title: "Deskripsi & Upload Dokumen", 
+    html: `
+        <div class="form-group">
+            <label>Deskripsi Proyek*</label>
+            <textarea 
+                id="projectDescription" 
+                class="form-control" 
+                rows="3" 
+                placeholder="Jelaskan detail proyek Anda..."
+                style="width:100%; margin-bottom:15px; padding:8px; border-radius:5px; border:1px solid #ddd"
+                required
+            ></textarea>
+            <div id="descError" style="color:red; font-size:12px; display:none; margin-top:5px">
+                <i class="fas fa-exclamation-circle"></i> Deskripsi wajib diisi
+            </div>
+        </div>
+        
+        <div class="form-group">
+            <label>Upload Referensi (Maks 3 foto)</label>
+            <div id="imagePreview" style="
+                display: flex;
+                flex-wrap: wrap;
+                gap: 10px;
+                margin-bottom: 15px;
+                min-height: 90px;
+                border: 2px dashed #eee;
+                padding: 10px;
+                border-radius: 5px;
+            ">
+                <div style="
+                    width:100%;
+                    text-align:center;
+                    color:#6c757d;
+                    padding:20px 0;
+                ">
+                    <i class="fas fa-images" style="font-size:24px"></i>
+                    <p style="margin-top:5px">Belum ada foto</p>
+                </div>
+            </div>
+            
+            <input 
+                type="file" 
+                id="imageUpload" 
+                accept="image/*" 
+                multiple
+                style="display:none"
+                onchange="handleFileUpload(this)"
+            >
+            
+            <button 
+                type="button"
+                onclick="document.getElementById('imageUpload').click()" 
+                style="
+                    width: 100%;
+                    padding: 10px;
+                    background: #f8f9fa;
+                    border: 1px solid #ddd;
+                    border-radius: 5px;
+                    cursor: pointer;
+                    transition: all 0.3s;
+                "
+                onmouseover="this.style.background='#e9ecef'" 
+                onmouseout="this.style.background='#f8f9fa'"
+            >
+                <i class="fas fa-cloud-upload-alt"></i> Pilih Foto
+            </button>
+            <small style="display:block; margin-top:5px; color:#6c757d">
+                Format: JPG/PNG (Maks 2MB per foto)
+            </small>
+        </div>
+    `,
+    icon: "info",
+    didOpen: () => {
+        // Inisialisasi variabel untuk menyimpan file
+        window.uploadedFiles = [];
+        
+        // Fungsi untuk menampilkan preview
+        window.handleFileUpload = function(input) {
+            const preview = document.getElementById('imagePreview');
+            const files = input.files;
+            
+            // Reset dan batasi maksimal 3 file
+            if (files.length > 3) {
+                Swal.showValidationMessage('Maksimal 3 foto yang diupload');
+                return;
+            }
+            
+            // Validasi ukuran file
+            for (let file of files) {
+                if (file.size > 2 * 1024 * 1024) {
+                    Swal.showValidationMessage(`File ${file.name} melebihi 2MB`);
+                    return;
+                }
+            }
+            
+            // Simpan file
+            window.uploadedFiles = Array.from(files);
+            
+            // Tampilkan preview
+            preview.innerHTML = '';
+            
+            if (window.uploadedFiles.length === 0) {
+                preview.innerHTML = `
+                    <div style="
+                        width:100%;
+                        text-align:center;
+                        color:#6c757d;
+                        padding:20px 0;
+                    ">
+                        <i class="fas fa-images" style="font-size:24px"></i>
+                        <p style="margin-top:5px">Belum ada foto</p>
+                    </div>
+                `;
+            } else {
+                window.uploadedFiles.forEach((file, index) => {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        const previewItem = document.createElement('div');
+                        previewItem.style.position = 'relative';
+                        previewItem.style.width = '80px';
+                        
+                        // Gambar preview
+                        const img = document.createElement('img');
+                        img.src = e.target.result;
+                        img.style.width = '80px';
+                        img.style.height = '80px';
+                        img.style.objectFit = 'cover';
+                        img.style.borderRadius = '5px';
+                        img.style.border = '1px solid #ddd';
+                        
+                        // Tombol hapus
+                        const deleteBtn = document.createElement('button');
+                        deleteBtn.innerHTML = '<i class="fas fa-times"></i>';
+                        deleteBtn.style.position = 'absolute';
+                        deleteBtn.style.top = '-5px';
+                        deleteBtn.style.right = '-5px';
+                        deleteBtn.style.background = 'red';
+                        deleteBtn.style.color = 'white';
+                        deleteBtn.style.border = 'none';
+                        deleteBtn.style.borderRadius = '50%';
+                        deleteBtn.style.width = '20px';
+                        deleteBtn.style.height = '20px';
+                        deleteBtn.style.cursor = 'pointer';
+                        deleteBtn.style.display = 'flex';
+                        deleteBtn.style.alignItems = 'center';
+                        deleteBtn.style.justifyContent = 'center';
+                        deleteBtn.style.fontSize = '10px';
+                        deleteBtn.onclick = (event) => {
+                            event.stopPropagation();
+                            window.uploadedFiles.splice(index, 1);
+                            handleFileUpload({ files: window.uploadedFiles });
+                        };
+                        
+                        previewItem.appendChild(img);
+                        previewItem.appendChild(deleteBtn);
+                        preview.appendChild(previewItem);
+                    };
+                    reader.readAsDataURL(file);
+                });
+            }
+        };
+    },
+    preConfirm: () => {
+        const desc = document.getElementById('projectDescription').value;
+        const descError = document.getElementById('descError');
+        
+        // Validasi deskripsi
+        if (!desc || desc.trim() === '') {
+            descError.style.display = 'block';
+            Swal.showValidationMessage('Deskripsi proyek harus diisi');
+            return false;
+        } else {
+            descError.style.display = 'none';
+        }
+        
+        return {
+            description: desc,
+            images: window.uploadedFiles || []
+        };
+    }
+},
+                    { 
+                        title: "Konfirmasi", 
+                        html: `
+                            <p>Anda akan memesan <strong>Premium Package</strong></p>
+                            <p>Total: Rp 3.000.000</p>
+                            <div class="form-group">
+                                <label>Alamat Penagihan</label>
+                                <textarea rows="3" style="width:100%;padding:8px"></textarea>
+                            </div>
+                        `,
+                        icon: "warning",
+                        confirmButtonText: "Konfirmasi Pembelian"
+                    }
+                ]
+            }
+        };
+
+        // Fungsi untuk menampilkan wizard berdasarkan paket
+        async function showPackageWizard(packageType) {
+            const config = packageConfigs[packageType];
+            const steps = ["1", "2", "3"];
+            
+            const Queue = Swal.mixin({
+                progressSteps: steps,
+                confirmButtonText: 'Selanjutnya >',
+                showCancelButton: true,
+                cancelButtonText: '< Kembali',
+                showClass: { backdrop: 'swal2-noanimation' },
+                hideClass: { backdrop: 'swal2-noanimation' },
+                scrollbarPadding: false,
+                customClass: {
+                    container: 'custom-swal-container'
+                }
+            });
+
+            // Step 1
+            let result = await Queue.fire({
+                title: config.title,
+                html: config.steps[0].html,
+                icon: config.steps[0].icon,
+                currentProgressStep: 0
+            });
+
+            if (result.isDismissed && result.dismiss === Swal.DismissReason.cancel) return;
+
+            // Step 2
+            result = await Queue.fire({
+                title: config.title,
+                html: config.steps[1].html,
+                icon: config.steps[1].icon,
+                currentProgressStep: 1
+            });
+
+            if (result.isDismissed && result.dismiss === Swal.DismissReason.cancel) {
+                await showPackageWizard(packageType); // Kembali ke step 1
+                return;
+            }
+
+            // Step 3
+            result = await Queue.fire({
+                title: config.title,
+                html: config.steps[2].html,
+                icon: config.steps[2].icon,
+                confirmButtonText: config.steps[2].confirmButtonText,
+                currentProgressStep: 2
+            });
+
+            if (result.isConfirmed) {
+                Swal.fire(
+                    'Berhasil!',
+                    `Pemesanan ${config.title} telah dikonfirmasi`,
+                    'success'
+                );
+            }
+        }
+
+        
+    </script>
+</body>
+</html>
