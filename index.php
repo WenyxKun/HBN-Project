@@ -4,7 +4,7 @@ session_start();
 // Redirect jika belum login
 if (!isset($_SESSION['user'])) {
     $_SESSION['redirect_url'] = $_SERVER['REQUEST_URI'];
-    header('Location: /HBN-Project/login.php'); // Gunakan absolute path
+    header('Location: login.php'); // Gunakan absolute path
     exit;
 }
 

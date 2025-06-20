@@ -64,130 +64,76 @@
             </ul>
         </nav>
         <div id="layoutSidenav">
-            <div id="layoutSidenav_nav">
-                <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
-                    <div class="sb-sidenav-menu">
-                        <div class="nav">
-                            <!-- Menu Inti -->
-                            <div class="sb-sidenav-menu-heading">Core</div>
-                            <a class="nav-link active" href="index.html">
-                                <div class="sb-nav-link-icon">
-                                    <i class="fas fa-tachometer-alt"></i>
-                                </div>
-                                Dashboard
-                            </a>
-
-                            <!-- Manajemen Kreatif -->
-                            <div class="sb-sidenav-menu-heading">Kreatif</div>
-                            <a
-                                class="nav-link collapsed"
-                                href="#"
-                                data-bs-toggle="collapse"
-                                data-bs-target="#collapsePortfolio"
-                                aria-expanded="false"
-                                aria-controls="collapsePortfolio">
-                                <div class="sb-nav-link-icon">
-                                    <i class="fas fa-palette"></i>
-                                </div>
-                                Portofolio
-                                <div class="sb-sidenav-collapse-arrow">
-                                    <i class="fas fa-angle-down"></i>
-                                </div>
-                            </a>
-                            <div
-                                class="collapse"
-                                id="collapsePortfolio"
-                                aria-labelledby="headingOne"
-                                data-bs-parent="#sidenavAccordion">
-                                <nav class="sb-sidenav-menu-nested nav">
-                                    <a class="nav-link" href="portfolio-list.html">Daftar Karya</a>
-                                    <a class="nav-link" href="portfolio-upload.html">Upload Baru</a>
-                                    <a class="nav-link" href="portfolio-categories.html">Kategori</a>
-                                </nav>
-                            </div>
-
-                            <!-- Manajemen Order -->
-                            <a
-                                class="nav-link collapsed"
-                                href="#"
-                                data-bs-toggle="collapse"
-                                data-bs-target="#collapseOrders"
-                                aria-expanded="false"
-                                aria-controls="collapseOrders">
-                                <div class="sb-nav-link-icon">
-                                    <i class="fas fa-shopping-cart"></i>
-                                </div>
-                                Order
-                                <div class="sb-sidenav-collapse-arrow">
-                                    <i class="fas fa-angle-down"></i>
-                                </div>
-                                <span class="badge bg-danger ms-2">8</span>
-                            </a>
-                            <div
-                                class="collapse"
-                                id="collapseOrders"
-                                aria-labelledby="headingTwo"
-                                data-bs-parent="#sidenavAccordion">
-                                <nav class="sb-sidenav-menu-nested nav">
-                                    <a class="nav-link" href="orders-pending.html">Pending
-                                        <span class="badge bg-warning ms-2">8</span></a>
-                                    <a class="nav-link" href="orders-completed.html">Selesai</a>
-                                    <a class="nav-link" href="orders-cancelled.html">Dibatalkan</a>
-                                </nav>
-                            </div>
-
-                            <!-- Manajemen Klien -->
-                            <div class="sb-sidenav-menu-heading">Klien</div>
-                            <a class="nav-link" href="clients.html">
-                                <div class="sb-nav-link-icon">
-                                    <i class="fas fa-users"></i>
-                                </div>
-                                Daftar Klien
-                            </a>
-                            <a class="nav-link" href="testimonials.html">
-                                <div class="sb-nav-link-icon">
-                                    <i class="fas fa-star"></i>
-                                </div>
-                                Testimoni
-                            </a>
-
-                            <!-- Analisis -->
-                            <div class="sb-sidenav-menu-heading">Analisis</div>
-                            <a class="nav-link" href="reports.html">
-                                <div class="sb-nav-link-icon">
-                                    <i class="fas fa-chart-pie"></i>
-                                </div>
-                                Laporan
-                            </a>
-                            <a class="nav-link" href="charts.html">
-                                <div class="sb-nav-link-icon">
-                                    <i class="fas fa-chart-line"></i>
-                                </div>
-                                Statistik
-                            </a>
-
-                            <!-- Sistem -->
-                            <div class="sb-sidenav-menu-heading">Sistem</div>
-                            <a class="nav-link" href="packages.html">
-                                <div class="sb-nav-link-icon">
-                                    <i class="fas fa-box-open"></i>
-                                </div>
-                                Paket Layanan
-                            </a>
-                            <a class="nav-link" href="settings.html">
-                                <div class="sb-nav-link-icon">
-                                    <i class="fas fa-cog"></i>
-                                </div>
-                                Pengaturan
-                            </a>
-                        </div>
+         <div id="layoutSidenav_nav">
+    <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
+        <div class="sb-sidenav-menu">
+            <div class="nav">
+                <!-- Menu Utama -->
+                <div class="sb-sidenav-menu-heading">Menu Utama</div>
+                <a class="nav-link active" href="dashboard.php">
+                    <div class="sb-nav-link-icon">
+                        <i class="fas fa-tachometer-alt"></i>
                     </div>
-                    <div class="sb-sidenav-footer">
-                        <div class="small">Logged in as:</div>
-                        Admin HBN
+                    Dashboard
+                </a>
+
+                <!-- Manajemen Pelanggan -->
+                <div class="sb-sidenav-menu-heading">Manajemen Pelanggan</div>
+                <a class="nav-link" href="data-pelanggan.php">
+                    <div class="sb-nav-link-icon">
+                        <i class="fas fa-users"></i>
                     </div>
-                </nav>
+                    Data Pelanggan
+                </a>
+                <a class="nav-link" href="status-pelanggan.php">
+                    <div class="sb-nav-link-icon">
+                        <i class="fas fa-user-check"></i>
+                    </div>
+                    Status Pelanggan
+                </a>
+                <a class="nav-link" href="deskripsi-pelanggan.php">
+                    <div class="sb-nav-link-icon">
+                        <i class="fas fa-id-card"></i>
+                    </div>
+                    Deskripsi Pelanggan
+                </a>
+
+                <!-- Laporan -->
+                <div class="sb-sidenav-menu-heading">Laporan</div>
+                <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseReports" aria-expanded="false" aria-controls="collapseReports">
+                    <div class="sb-nav-link-icon">
+                        <i class="fas fa-file-alt"></i>
+                    </div>
+                    Report
+                    <div class="sb-sidenav-collapse-arrow">
+                        <i class="fas fa-angle-down"></i>
+                    </div>
+                </a>
+                <div class="collapse" id="collapseReports" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
+                    <nav class="sb-sidenav-menu-nested nav">
+                        <a class="nav-link" href="report-harian.php">Harian</a>
+                        <a class="nav-link" href="report-mingguan.php">Mingguan</a>
+                        <a class="nav-link" href="report-bulanan.php">Bulanan</a>
+                        <a class="nav-link" href="report-tahunan.php">Tahunan</a>
+                    </nav>
+                </div>
+
+                <!-- Logout -->
+                <div class="sb-sidenav-menu-heading">Akun</div>
+                <a class="nav-link" href="logout.php">
+                    <div class="sb-nav-link-icon">
+                        <i class="fas fa-sign-out-alt"></i>
+                    </div>
+                    Logout
+                </a>
             </div>
+        </div>
+        <div class="sb-sidenav-footer">
+            <div class="small">Logged in as:</div>
+            Admin HBN
+        </div>
+    </nav>
+</div>
             <div id="layoutSidenav_content">
                 <main>
                     <div class="container-fluid px-4">

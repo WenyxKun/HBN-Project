@@ -25,7 +25,10 @@ if ($_SESSION['user']['ip'] !== $_SERVER['REMOTE_ADDR'] ||
 }
 
 // Generate CSRF token jika belum ada
-if (!isset($_SESSION['csrf_token'])) {
-    $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+if (!isset($_POST['csrf_token']) || $_POST['csrf_token'] !== $_SESSION['csrf_token']) {
+    die(json_encode([
+        'status' => 'error',
+        'message' => 'Invalid CSRF token'
+    ]));
 }
 ?>
