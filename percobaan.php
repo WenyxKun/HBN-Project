@@ -1,588 +1,139 @@
-<?php
-session_start();
 
-// Redirect jika belum login
-if (!isset($_SESSION['user'])) {
-    $_SESSION['redirect_url'] = $_SERVER['REQUEST_URI'];
-    header('Location: login.php'); // Gunakan absolute path
-    exit;
-}
-
-// Set header keamanan
-header("X-Frame-Options: DENY");
-header("X-Content-Type-Options: nosniff");
-header("X-XSS-Protection: 1; mode=block");
-
-// Cek session timeout
-if (isset($_SESSION['user']['last_activity'])) {
-    $timeout = 1800; // 30 menit
-    if (time() - $_SESSION['user']['last_activity'] > $timeout) {
-        session_unset();
-        session_destroy();
-        header('Location: login.php?timeout=1');
-        exit;
-    }
-}
-
-// Update last activity
-$_SESSION['user']['last_activity'] = time();
-
-require_once __DIR__.'/backend/config/database.php';
-
-// Fungsi untuk generate random order ID
-function generateOrderId($prefix = 'ORD') {
-    return $prefix . '-' . strtoupper(substr(md5(uniqid()), 0, 8));
-}
-
-// Fungsi untuk upload file
-function uploadFile($file, $targetDir, $allowedTypes, $maxSize = 2097152) {
-    $fileName = uniqid() . '_' . basename($file['name']);
-    $targetFile = $targetDir . $fileName;
-    $fileType = strtolower(pathinfo($targetFile, PATHINFO_EXTENSION));
-    
-    // Validasi tipe file
-    if (!in_array($fileType, $allowedTypes)) {
-        throw new Exception("Hanya file dengan format " . implode(', ', $allowedTypes) . " yang diperbolehkan.");
-    }
-    
-    // Validasi ukuran file
-    if ($file['size'] > $maxSize) {
-        throw new Exception("Ukuran file melebihi batas maksimal " . ($maxSize / 1024 / 1024) . "MB.");
-    }
-    
-    // Upload file
-    if (!move_uploaded_file($file['tmp_name'], $targetFile)) {
-        throw new Exception("Gagal mengupload file.");
-    }
-    
-    return $fileName;
-}
-
-// Proses form jika ada request POST
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['package_type'])) {
-    try {
-        // Validasi user login (sudah di-handle oleh redirect di atas)
-        $userId = $_SESSION['user']['id'];
-        $packageType = $_POST['package_type'];
-        $description = $_POST['description'];
-        $email = $_POST['email'];
-        
-        // Validasi input
-        if (empty($description)) {
-            throw new Exception('Deskripsi proyek wajib diisi.');
-        }
-        
-        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-            throw new Exception('Email tidak valid.');
-        }
-        
-        // Tentukan harga berdasarkan paket
-        $prices = [
-            'starter' => ['installment_1' => 99500, 'installment_2' => 99500, 'total' => 199000],
-            'exclusive' => ['installment_1' => 249500, 'installment_2' => 249500, 'total' => 499000],
-            'premium' => ['installment_1' => 499500, 'installment_2' => 499500, 'total' => 999000]
-        ];
-        
-        if (!isset($prices[$packageType])) {
-            throw new Exception('Paket tidak valid.');
-        }
-        
-        // Upload bukti pembayaran
-        if (!isset($_FILES['payment_proof']) || $_FILES['payment_proof']['error'] !== UPLOAD_ERR_OK) {
-            throw new Exception('Bukti pembayaran wajib diupload.');
-        }
-        
-        $paymentProof = uploadFile(
-            $_FILES['payment_proof'], 
-            __DIR__.'/uploads/payments/', 
-            ['jpg', 'jpeg', 'png', 'pdf'], 
-            2097152 // 2MB
-        );
-        
-        // Upload referensi gambar jika ada
-        $references = [];
-        if (!empty($_FILES['references']['name'][0])) {
-            $referenceDir = __DIR__.'/uploads/references/';
-            
-            foreach ($_FILES['references']['tmp_name'] as $key => $tmpName) {
-                if ($_FILES['references']['error'][$key] === UPLOAD_ERR_OK) {
-                    $file = [
-                        'name' => $_FILES['references']['name'][$key],
-                        'type' => $_FILES['references']['type'][$key],
-                        'tmp_name' => $tmpName,
-                        'error' => $_FILES['references']['error'][$key],
-                        'size' => $_FILES['references']['size'][$key]
-                    ];
-                    
-                    $references[] = uploadFile(
-                        $file,
-                        $referenceDir,
-                        ['jpg', 'jpeg', 'png'],
-                        2097152 // 2MB
-                    );
-                    
-                    // Batasi maksimal 3 file
-                    if (count($references) >= 3) break;
-                }
-            }
-        }
-        
-        // Mulai transaksi database
-        $conn->beginTransaction();
-        
-        try {
-            // Simpan data order
-            $orderId = generateOrderId();
-            $stmt = $conn->prepare("
-                INSERT INTO orders (
-                    user_id, 
-                    package_type, 
-                    order_id, 
-                    description, 
-                    email, 
-                    payment_proof, 
-                    total_amount, 
-                    installment_1, 
-                    installment_2
-                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
-            ");
-            
-            $stmt->execute([
-                $userId,
-                $packageType,
-                $orderId,
-                $description,
-                $email,
-                $paymentProof,
-                $prices[$packageType]['total'],
-                $prices[$packageType]['installment_1'],
-                $prices[$packageType]['installment_2']
-            ]);
-            
-            $orderId = $conn->lastInsertId();
-            
-            // Simpan referensi gambar jika ada
-            if (!empty($references)) {
-                $stmt = $conn->prepare("
-                    INSERT INTO order_references (order_id, file_path) 
-                    VALUES (?, ?)
-                ");
-                
-                foreach ($references as $reference) {
-                    $stmt->execute([$orderId, $reference]);
-                }
-            }
-            
-            // Commit transaksi
-            $conn->commit();
-            
-            // Response sukses
-            echo json_encode([
-                'status' => 'success',
-                'message' => 'Pemesanan berhasil dikonfirmasi!',
-                'order_id' => $orderId
-            ]);
-            exit;
-            
-        } catch (Exception $e) {
-            $conn->rollBack();
-            throw $e;
-        }
-        
-    } catch (Exception $e) {
-        // Response error
-        http_response_code(400);
-        echo json_encode([
-            'status' => 'error',
-            'message' => $e->getMessage()
-        ]);
-        exit;
-    }
-}
-?>
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HBN Production</title>
+    <title>Paket Layanan - HBN Design</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <!-- SweetAlert2 CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
-    <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
-    <link rel="stylesheet" href="Assets/css/style.css">
-    <link rel="stylesheet" href="Assets/css/pricing.css">
-
     <style>
-        .user-menu {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-        }
-        .avatar {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            cursor: pointer;
+        .package-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+            margin-top: 30px;
         }
         
-        /* Tambahan untuk dropdown */
-        .dropdown {
-            position: relative;
-            display: inline-block;
+        .pricing-card {
+            width: 300px;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s;
+            background: white;
         }
         
-        .dropdown-content {
-            display: none;
-            position: absolute;
-            right: 0;
-            background-color: #f9f9f9;
-            min-width: 160px;
-            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-            z-index: 1;
-            border-radius: 5px;
+        .pricing-card:hover {
+            transform: translateY(-10px);
         }
         
-        .dropdown-content a {
-            color: black;
-            padding: 12px 16px;
-            text-decoration: none;
-            display: block;
+        .pricing-header {
+            padding: 20px;
+            text-align: center;
+            color: white;
         }
         
-        .dropdown-content a:hover {
-            background-color: #f1f1f1;
-            border-radius: 5px;
+        .pricing-header.starter {
+            background: linear-gradient(135deg, #28a745, #20c997);
         }
         
-        .dropdown:hover .dropdown-content {
-            display: block;
+        .pricing-header.premium {
+            background: linear-gradient(135deg, #ffc107, #fd7e14);
+        }
+        
+        .pricing-title {
+            font-size: 1.5rem;
+            margin-bottom: 5px;
+        }
+        
+        .pricing-timeline {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+        
+        .pricing-features {
+            padding: 20px;
+        }
+        
+        .pricing-features ul {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .pricing-features li {
+            padding: 8px 0;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .pricing-features li:last-child {
+            border-bottom: none;
+        }
+        
+        .pricing-btn {
+            width: 100%;
+            border: none;
+            padding: 12px;
+            font-weight: bold;
+            border-radius: 0;
+        }
+        
+        .section-title {
+            text-align: center;
+            margin-top: 50px;
+            font-size: 2rem;
+            font-weight: bold;
+            color: #333;
+        }
+        
+        .custom-swal-container {
+            z-index: 2000 !important;
         }
     </style>
 </head>
 <body>
-
- <!-- Navbar -->
-<nav class="navbar navbar-expand-lg navbar-light shadow bg-light">
-    <a class="navbar-brand ps-5" href="#">
-        <img src="Assets\Img\Gambar1.jpg" width="50" height="50" alt="">
-    </a>
-    <button
-        class="navbar-toggler"
-        type="button"
-        data-toggle="collapse"
-        data-target="#navbarNav"
-        aria-controls="navbarNav"
-        aria-expanded="false"
-        aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav ms-auto pe-3 gap-4">
-            <li class="nav-item">
-                <a class="nav-link position-relative px-2" href="#portfolio">Portofolio</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link position-relative px-2" href="#about">Tentang Kami</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link position-relative px-2" href="#contact">Kontak</a>
-            </li>
-            
-   <?php if (isset($_SESSION['user'])): ?>
-    <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" 
-           data-bs-toggle="dropdown" aria-expanded="false">
-            <?php if (!empty($_SESSION['user_avatar'])): ?>
-                <img src="Assets/Img/<?= htmlspecialchars($_SESSION['user_avatar']) ?>" 
-                     class="rounded-circle" width="30" height="30" alt="Profile">
-            <?php else: ?>
-                <i class="fas fa-user-circle fa-lg"></i>
-            <?php endif; ?>
-        </a>
-        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-            <li><a class="dropdown-item" href="setting.php">
-                <i class="fas fa-user-cog me-2"></i> Profile & Settings</a></li>
-            <li><hr class="dropdown-divider"></li>
-            <li>
-                <form action="backend/logout.php" method="post" class="px-3 py-1">
-                    <input type="hidden" name="csrf_token" value="<?= $_SESSION['csrf_token'] ?? '' ?>">
-                    <button type="submit" class="btn btn-link p-0 text-start w-100">
-                        <i class="fas fa-sign-out-alt me-2"></i> Logout
-                    </button>
-                </form>
-            </li>
-        </ul>
-    </li>
-            <?php else: ?>
-                <!-- Tampilkan tombol login/register jika belum login -->
-                <li class="nav-item">
-                    <a class="nav-link position-relative px-2" href="login.php">Masuk</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link position-relative px-2" href="register.php">Daftar</a>
-                </li>
-            <?php endif; ?>
-        </ul>
-    </div>
-</nav>
-
-        <style>
-            /* Custom hover effect */
-            .navbar-nav .nav-link {
-                color: #333;
-                transition: all 0.3s ease;
-                padding-bottom: 5px;
-            }
-
-            .navbar-nav .nav-link:hover {
-                color: #0dcaf0;
-                /* Warna cyan-500 */
-            }
-
-            /* Garis bawah animasi */
-            .navbar-nav .nav-link::after {
-                content: '';
-                position: absolute;
-                width: 0;
-                height: 2px;
-                bottom: 0;
-                left: 50%;
-                transform: translateX(-50%);
-                background-color: #0dcaf0;
-                /* Warna cyan-500 */
-                transition: width 0.3s ease, left 0.3s ease;
-            }
-
-            .navbar-nav .nav-link:hover::after {
-                width: 80%;
-                left: 50%;
-            }
-
-            /* Efek tambahan saat aktif */
-            .navbar-nav .nav-link.active {
-                color: #0dcaf0;
-                font-weight: 500;
-            }
-
-            .navbar-nav .nav-link.active::after {
-                width: 80%;
-                left: 50%;
-            }
-        </style>
-
-        <style>
-            .jumbotron {
-                background: linear-gradient(to right, #e8e7e7, #cecccc);
-                background-size: cover;
-                color: rgb(27, 54, 21);
-                height: 40vh;
-                /* Increased from 15vh to 40vh */
-                min-height: 300px;
-                /* Ensures minimum height on mobile */
-                display: flex;
-                flex-direction: column;
-                justify-content: center;
-                padding: 4rem 0;
-                /* Added padding for top and bottom spacing */
-                margin-bottom: 2rem;
-                /* Space below the jumbotron */
-            }
-
-            /* Additional styling for better text presentation */
-            .jumbotron h1 {
-                font-size: 4.5rem;
-                margin-bottom: 1.5rem;
-            }
-
-            .jumbotron p {
-                font-size: 1.2rem;
-                margin-bottom: 1rem;
-                max-width: 800px;
-                margin-left: auto;
-                margin-right: auto;
-            }
-
-            /* Responsive adjustments */
-            @media (max-width: 768px) {
-                .jumbotron {
-                    height: auto;
-                    padding: 3rem 1rem;
-                }
-
-                .jumbotron h1 {
-                    font-size: 2rem;
-                }
-
-                .jumbotron p {
-                    font-size: 1rem;
-                }
-            }
-        </style>
-
-        <!-- Hero Section -->
-        <header class="jumbotron text-center">
-            <div class="container">
-                <h1 class="display-4">Selamat Datang di HBN Production</h1>
-                <p class="lead">We believe that every brand has a story to tell.We specialize in
-                    crafting distinctive logos for your brand.From idea to identity, we're here to
-                    bring your ideas to life and help your business stand out in a crowded market.</p>
-                <p class="lead"></p>
-                <p class="lead mb-4">Ready to elevate your brand? Let's get started today.</p>
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+            <a class="navbar-brand" href="#">HBN Design</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#">Paket Layanan</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Portofolio</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Kontak</a>
+                    </li>
+                    <?php if(isset($_SESSION['user'])): ?>
+                        <li class="nav-item">
+                            <a class="nav-link" href="logout.php">Logout</a>
+                        </li>
+                    <?php else: ?>
+                        <li class="nav-item">
+                            <a class="nav-link" href="login.php">Login</a>
+                        </li>
+                    <?php endif; ?>
+                </ul>
             </div>
-        </header>
+        </div>
+    </nav>
 
-        <style>
-            /* Custom Carousel Controls */
-            .carousel-control-next,
-            .carousel-control-prev {
-                width: 40px;
-                /* Lebar tombol */
-                height: 40px;
-                /* Tinggi tombol */
-                background-color: rgba(0, 0, 0, 0.3);
-                /* Warna background */
-                border-radius: 50%;
-                /* Bentuk bulat */
-                top: 50%;
-                /* Posisi vertikal tengah */
-                transform: translateY(-50%);
-                opacity: 1;
-                /* Selalu terlihat */
-                transition: all 0.3s ease;
-            }
-
-            .carousel-control-prev {
-                left: 15px;
-                /* Jarak dari kiri */
-            }
-
-            .carousel-control-next {
-                right: 15px;
-                /* Jarak dari kanan */
-            }
-
-            .carousel-control-next:hover,
-            .carousel-control-prev:hover {
-                background-color: rgba(0, 0, 0, 0.6);
-                /* Warna saat hover */
-            }
-
-            .carousel-control-next-icon,
-            .carousel-control-prev-icon {
-                width: 20px;
-                /* Ukuran icon */
-                height: 20px;
-                background-size: 100% 100%;
-            }
-        </style>
-
-        <!-- Portfolio Section -->
-        <section id="portfolio" class="container">
-            <h2 class="text-center section-title mb-5 ">Portofolio</h2>
-            <!-- Carousel Container -->
-            <div id="portfolioCarousel" class="carousel slide" data-bs-ride="carousel">
-                <div class="carousel-inner">
-                    <!-- Slide 1 (Active) -->
-                    <div class="carousel-item active">
-                        <div class="row">
-                            <div class="col-md-4 mb-4">
-                                <div class="card h-100">
-                                    <img
-                                        src="Assets/Img/IMG-20240516-WA0034.jpg"
-                                        class="card-img-top"
-                                        alt="Ixora Cosmetic">
-                                    <div class="card-body">
-                                        <h5 class="card-title">Ixora Cosmetic</h5>
-                                        <p class="card-text">Logo untuk klinik kesehatan yang menawarkan layanan medis untuk kecantikan.</p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-4 mb-4">
-                                <div class="card h-100">
-                                    <img
-                                        src="Assets/Img/IMG-20240516-WA0045.jpg"
-                                        class="card-img-top"
-                                        alt="Berikabar Warkop">
-                                    <div class="card-body">
-                                        <h5 class="card-title">Berikabar Warkop</h5>
-                                        <p class="card-text">Logo untuk kafe yang menawarkan pengalaman kuliner yang santai dan elegan.</p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-4 mb-4">
-                                <div class="card h-100">
-                                    <img
-                                        src="Assets/Img/IMG-20240516-WA0025.jpg"
-                                        class="card-img-top"
-                                        alt="Sobatgn Mountain Gear">
-                                    <div class="card-body">
-                                        <h5 class="card-title">Sobatgn Mountain Gear</h5>
-                                        <p class="card-text">Logo untuk Toko perlatan lengkap untuk para pendaki hebat.</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Slide 2 -->
-                    <div class="carousel-item">
-                        <div class="row">
-                            <div class="col-md-4 mb-4">
-                                <div class="card h-100">
-                                    <img src="Assets/Img/next-image1.jpg" class="card-img-top" alt="Project 4">
-                                    <div class="card-body">
-                                        <h5 class="card-title">Project 4</h5>
-                                        <p class="card-text">Deskripsi project 4.</p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-4 mb-4">
-                                <div class="card h-100">
-                                    <img src="Assets/Img/next-image2.jpg" class="card-img-top" alt="Project 5">
-                                    <div class="card-body">
-                                        <h5 class="card-title">Project 5</h5>
-                                        <p class="card-text">Deskripsi project 5.</p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-4 mb-4">
-                                <div class="card h-100">
-                                    <img src="Assets/Img/next-image3.jpg" class="card-img-top" alt="Project 6">
-                                    <div class="card-body">
-                                        <h5 class="card-title">Project 6</h5>
-                                        <p class="card-text">Deskripsi project 6.</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Navigation Controls -->
-                <button
-                    class="carousel-control-prev"
-                    type="button"
-                    data-bs-target="#portfolioCarousel"
-                    data-bs-slide="prev">
-                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                    <span class="visually-hidden"></span>
-                </button>
-                <button
-                    class="carousel-control-next"
-                    type="button"
-                    data-bs-target="#portfolioCarousel"
-                    data-bs-slide="next">
-                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                    <span class="visually-hidden"></span>
-                </button>
-            </div>
-        </section>
-
-     <!-- New Pricing Section -->
+    <!-- New Pricing Section -->
     <h2 class="section-title">Paket Layanan Kami</h2>
 
     <div class="package-container">
@@ -661,7 +212,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['package_type'])) {
         </div>
     </div>
 
-
+    <!-- Bootstrap JS Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <!-- SweetAlert2 JS -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
@@ -702,25 +254,59 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['package_type'])) {
                                 </div>
                             </div>
                             
-                                <div class="mb-3">
-                                    <label class="form-label">Upload Referensi</label>
-
-                                    <!-- Input file yang terhubung dengan fungsi -->
-                                    <input
-                                        type="file"
-                                        class="form-control"
-                                        accept="image/jpeg, image/png"
-                                        multiple="multiple"
-                                        onchange="handleFileUpload(event)">
-
-                                        <!-- Container untuk preview -->
-                                        <div id="preview-container" class="d-flex flex-wrap gap-2 mt-3"></div>
-
-                                        <!-- Pesan jika belum ada foto -->
-                                        <div id="no-photo-message" class="text-muted mt-2">
-                                            Belum ada foto
-                                        </div>
-                                    </div>   
+                            <div class="form-group">
+                                <label>Upload Referensi (Maks 3 foto)</label>
+                                <div id="imagePreview" style="
+                                    display: flex;
+                                    flex-wrap: wrap;
+                                    gap: 10px;
+                                    margin-bottom: 15px;
+                                    min-height: 90px;
+                                    border: 2px dashed #eee;
+                                    padding: 10px;
+                                    border-radius: 5px;
+                                ">
+                                    <div style="
+                                        width:100%;
+                                        text-align:center;
+                                        color:#6c757d;
+                                        padding:20px 0;
+                                    ">
+                                        <i class="fas fa-images" style="font-size:24px"></i>
+                                        <p style="margin-top:5px">Belum ada foto</p>
+                                    </div>
+                                </div>
+                                
+                                <input 
+                                    type="file" 
+                                    id="imageUpload" 
+                                    accept="image/*" 
+                                    multiple
+                                    style="display:none"
+                                    onchange="handleFileUpload(this)"
+                                >
+                                
+                                <button 
+                                    type="button"
+                                    onclick="document.getElementById('imageUpload').click()" 
+                                    style="
+                                        width: 100%;
+                                        padding: 10px;
+                                        background: #f8f9fa;
+                                        border: 1px solid #ddd;
+                                        border-radius: 5px;
+                                        cursor: pointer;
+                                        transition: all 0.3s;
+                                    "
+                                    onmouseover="this.style.background='#e9ecef'" 
+                                    onmouseout="this.style.background='#f8f9fa'"
+                                >
+                                    <i class="fas fa-cloud-upload-alt"></i> Pilih Foto
+                                </button>
+                                <small style="display:block; margin-top:5px; color:#6c757d">
+                                    Format: JPG/PNG (Maks 2MB per foto)
+                                </small>
+                            </div>
                         `,
                         icon: "info",
                         didOpen: () => {
@@ -955,25 +541,59 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['package_type'])) {
                                 </div>
                             </div>
                             
-                                                           <div class="mb-3">
-                                    <label class="form-label">Upload Referensi</label>
-
-                                    <!-- Input file yang terhubung dengan fungsi -->
-                                    <input
-                                        type="file"
-                                        class="form-control"
-                                        accept="image/jpeg, image/png"
-                                        multiple="multiple"
-                                        onchange="handleFileUpload(event)">
-
-                                        <!-- Container untuk preview -->
-                                        <div id="preview-container" class="d-flex flex-wrap gap-2 mt-3"></div>
-
-                                        <!-- Pesan jika belum ada foto -->
-                                        <div id="no-photo-message" class="text-muted mt-2">
-                                            Belum ada foto
-                                        </div>
-                                    </div>   
+                            <div class="form-group">
+                                <label>Upload Referensi (Maks 3 foto)</label>
+                                <div id="imagePreview" style="
+                                    display: flex;
+                                    flex-wrap: wrap;
+                                    gap: 10px;
+                                    margin-bottom: 15px;
+                                    min-height: 90px;
+                                    border: 2px dashed #eee;
+                                    padding: 10px;
+                                    border-radius: 5px;
+                                ">
+                                    <div style="
+                                        width:100%;
+                                        text-align:center;
+                                        color:#6c757d;
+                                        padding:20px 0;
+                                    ">
+                                        <i class="fas fa-images" style="font-size:24px"></i>
+                                        <p style="margin-top:5px">Belum ada foto</p>
+                                    </div>
+                                </div>
+                                
+                                <input 
+                                    type="file" 
+                                    id="imageUpload" 
+                                    accept="image/*" 
+                                    multiple
+                                    style="display:none"
+                                    onchange="handleFileUpload(this)"
+                                >
+                                
+                                <button 
+                                    type="button"
+                                    onclick="document.getElementById('imageUpload').click()" 
+                                    style="
+                                        width: 100%;
+                                        padding: 10px;
+                                        background: #f8f9fa;
+                                        border: 1px solid #ddd;
+                                        border-radius: 5px;
+                                        cursor: pointer;
+                                        transition: all 0.3s;
+                                    "
+                                    onmouseover="this.style.background='#e9ecef'" 
+                                    onmouseout="this.style.background='#f8f9fa'"
+                                >
+                                    <i class="fas fa-cloud-upload-alt"></i> Pilih Foto
+                                </button>
+                                <small style="display:block; margin-top:5px; color:#6c757d">
+                                    Format: JPG/PNG (Maks 2MB per foto)
+                                </small>
+                            </div>
                         `,
                         icon: "info",
                         didOpen: () => {
@@ -1208,25 +828,59 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['package_type'])) {
                                 </div>
                             </div>
                             
-                                                     <div class="mb-3">
-                                    <label class="form-label">Upload Referensi</label>
-
-                                    <!-- Input file yang terhubung dengan fungsi -->
-                                    <input
-                                        type="file"
-                                        class="form-control"
-                                        accept="image/jpeg, image/png"
-                                        multiple="multiple"
-                                        onchange="handleFileUpload(event)">
-
-                                        <!-- Container untuk preview -->
-                                        <div id="preview-container" class="d-flex flex-wrap gap-2 mt-3"></div>
-
-                                        <!-- Pesan jika belum ada foto -->
-                                        <div id="no-photo-message" class="text-muted mt-2">
-                                            Belum ada foto
-                                        </div>
-                                    </div>   
+                            <div class="form-group">
+                                <label>Upload Referensi (Maks 3 foto)</label>
+                                <div id="imagePreview" style="
+                                    display: flex;
+                                    flex-wrap: wrap;
+                                    gap: 10px;
+                                    margin-bottom: 15px;
+                                    min-height: 90px;
+                                    border: 2px dashed #eee;
+                                    padding: 10px;
+                                    border-radius: 5px;
+                                ">
+                                    <div style="
+                                        width:100%;
+                                        text-align:center;
+                                        color:#6c757d;
+                                        padding:20px 0;
+                                    ">
+                                        <i class="fas fa-images" style="font-size:24px"></i>
+                                        <p style="margin-top:5px">Belum ada foto</p>
+                                    </div>
+                                </div>
+                                
+                                <input 
+                                    type="file" 
+                                    id="imageUpload" 
+                                    accept="image/*" 
+                                    multiple
+                                    style="display:none"
+                                    onchange="handleFileUpload(this)"
+                                >
+                                
+                                <button 
+                                    type="button"
+                                    onclick="document.getElementById('imageUpload').click()" 
+                                    style="
+                                        width: 100%;
+                                        padding: 10px;
+                                        background: #f8f9fa;
+                                        border: 1px solid #ddd;
+                                        border-radius: 5px;
+                                        cursor: pointer;
+                                        transition: all 0.3s;
+                                    "
+                                    onmouseover="this.style.background='#e9ecef'" 
+                                    onmouseout="this.style.background='#f8f9fa'"
+                                >
+                                    <i class="fas fa-cloud-upload-alt"></i> Pilih Foto
+                                </button>
+                                <small style="display:block; margin-top:5px; color:#6c757d">
+                                    Format: JPG/PNG (Maks 2MB per foto)
+                                </small>
+                            </div>
                         `,
                         icon: "info",
                         didOpen: () => {
@@ -1551,78 +1205,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['package_type'])) {
             }
         }
     </script>
-
-        <!-- About Section -->
-        <section id="about" class="bg-light py-5">
-            <div class="container">
-                <h2 class="text-center mb-5">Tentang Kami</h2>
-                <p>Hi, I'm Hiban Sakif, the creative mind behind HBN Studio Kreatif. With a
-                    passion for turning ideas into powerful logos and memorable brand identities,
-                    I've dedicated myself to helping businesses of all sizes define who they are and
-                    how they're seen by the world. Let's collaborate and make your vision come to
-                    life with designs that truly stand out.</p>
-            </div>
-        </section>
-
-        <!-- Contact Section -->
-        <section id="contact" class="container py-5">
-            <h2 class="text-center mb-5">Kontak Kami</h2>
-            <div class="row">
-                <div class="col-md-6 offset-md-3">
-                    <form action="save_contact.php" method="post">
-                        <div class="form-group">
-                            <label for="name">Nama:</label>
-                            <input
-                                type="text"
-                                class="form-control"
-                                id="name"
-                                name="name"
-                                required="required">
-                        </div>
-                        <div class="form-group">
-                            <label for="email">Email:</label>
-                            <input
-                                type="email"
-                                class="form-control"
-                                id="email"
-                                name="email"
-                                required="required">
-                        </div>
-                        <div class="form-group">
-                            <label for="message">Pesan:</label>
-                            <textarea
-                                class="form-control"
-                                id="message"
-                                name="message"
-                                rows="5"
-                                required="required"></textarea>
-                        </div>
-                        <button type="submit" class="btn btn-primary">Kirim</button>
-                    </form>
-                </div>
-            </div>
-        </section>
-
-        <!-- Footer -->
-        <footer class="bg-dark text-light text-center py-3">
-            <p>&copy; 2024 HBN Production. Semua hak cipta dilindungi.</p>
-        </footer>
-
-        <!-- Scripts -->
-
-   <!-- Scripts -->
-    <script>
-    // Cek status login dari sessionStorage
-    document.addEventListener('DOMContentLoaded', function() {
-        const authData = sessionStorage.getItem('auth');
-        
-        if (!authData && <?= isset($_SESSION['user']) ? 'false' : 'true' ?>) {
-            // Jika tidak ada data auth di client side dan tidak ada session di server side
-            window.location.href = 'login.php';
-        }
-    });
-    </script>
-
     <script>
 function handleFileUpload(event) {
   const files = event.target.files;
@@ -1668,13 +1250,5 @@ function removePreview(button) {
   button.parentElement.remove();
 }
 </script>
-
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    <script src="Assets/js/pricing.js"></script>
-    <script src="Assets/js/script.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </body>
 </html>
